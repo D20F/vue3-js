@@ -5,31 +5,25 @@ import 'element-plus/lib/theme-chalk/index.css'
 import store from './store'
 import router from './router'
 
-import Cookies from 'js-cookie'
-
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
 
-import './styles/element-variables.scss'
 
 import '@/styles/index.scss' // global css
+import '@/permission' // permission control
 
-import './icons' // icon
-import './permission' // permission control
-import './utils/error-log' // error log
+// import '@/icons' // icon
 
-import SvgIcon from '@/components/SvgIcon'// svg component
-
+import ic from '@/icons' // icon
 
 
 const app = createApp(App)
 
+ic(app)
+
+
 app.config.productionTip = false
 
-// register globally
-app.component('SvgIcon', SvgIcon)
-app.use(ElementPlus, {
-  size: Cookies.get('size') || 'medium', // set element-ui default size
-})
+app.use(ElementPlus)
 app.use(store)
 app.use(router)
 app.mount('#app')

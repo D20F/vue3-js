@@ -116,7 +116,7 @@ export default {
       const _this = this
       window.tinymce.init({
         selector: `#${this.tinymceId}`,
-        language: this.languageTypeList['en'],
+        language: this.languageTypeList['zh'],
         height: this.height,
         body_class: 'panel-body ',
         object_resizing: false,
@@ -204,43 +204,58 @@ export default {
       window.tinymce.get(this.tinymceId).getContent()
     },
     imageSuccessCBK(arr) {
-      arr.forEach(v => window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`))
+      const _this = this
+      arr.forEach(v => {
+        window.tinymce.get(_this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`)
+      })
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+ /deep/ #mceu_44-body {
+   white-space: pre-wrap!important;
+   
+}
+/deep/ #mceu_46-body{
+     white-space: pre-wrap!important;
+}
+  /deep/ .mce-container, .mce-container *, .mce-widget, .mce-widget *, .mce-reset{
+   white-space: pre-wrap!important;
+  width: 100%!important;
+}
+/deep/ .mce-flow-layout {
+ white-space: pre-wrap!important;
+}
+
+ /deep/ .mce-widget{
+  white-space: pre-wrap!important;
+   }
+/deep/ .mce-ico  {
+  font-size: 1rem!important;
+}
 .tinymce-container {
   position: relative;
   line-height: normal;
 }
-
-.tinymce-container {
-  ::v-deep {
-    .mce-fullscreen {
-      z-index: 10000;
-    }
-  }
+.tinymce-container>>>.mce-fullscreen {
+  z-index: 10000;
 }
-
 .tinymce-textarea {
   visibility: hidden;
   z-index: -1;
 }
-
 .editor-custom-btn-container {
   position: absolute;
   right: 4px;
   top: 4px;
   /*z-index: 2005;*/
 }
-
 .fullscreen .editor-custom-btn-container {
   z-index: 10000;
   position: fixed;
 }
-
 .editor-upload-btn {
   display: inline-block;
 }

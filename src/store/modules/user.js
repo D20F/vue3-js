@@ -1,132 +1,173 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, adminUserInfoOwn } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import router, { resetRouter } from '@/router'
+import { resetRouter } from '@/router'
+import { Message } from 'element-plus'
+import {
+    root,
+    err,
+    componentList
+} from '@/router/routerConfig'
 
-const state = {
-  token: getToken(),
-  name: '',
-  avatar: '',
-  introduction: '',
-  roles: []
+const getDefaultState = () => {
+    return {
+        token: getToken('admin_token'),
+        userId: getToken('userId'),
+        name: '',
+        avatar: '',
+        routerOption: [], // router 路由
+        btnGroup: [] // 按钮权限数组
+
+    }
 }
 
+const state = getDefaultState()
+
 const mutations = {
-  SET_TOKEN: (state, token) => {
-    state.token = token
-  },
-  SET_INTRODUCTION: (state, introduction) => {
-    state.introduction = introduction
-  },
-  SET_NAME: (state, name) => {
-    state.name = name
-  },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
-  },
-  SET_ROLES: (state, roles) => {
-    state.roles = roles
-  }
+    RESET_STATE: (state) => {
+        Object.assign(state, getDefaultState())
+    },
+    SET_TOKEN: (state, data) => {
+        state.token = data
+    },
+    SET_USERID: (state, data) => {
+        state.userId = data
+    },
+    SET_NAME: (state, data) => {
+        state.name = data
+    },
+    SET_AVATAR: (state, data) => {
+        state.avatar = data
+    },
+    CHANGE_ROUTER: (state, data) => {
+        state.routerOption = data
+    },
+    SET_BTN: (state, data) => {
+        state.btnGroup = data
+    }
 }
 
 const actions = {
-  // user login
-  login({ commit }, userInfo) {
-    const { username, password } = userInfo
-    return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
+    // 登陆
+    login({ commit }, userInfo) {
+        const { username, password } = userInfo
+        return new Promise((resolve, reject) => {
+            login({ username: username.trim(), password: password }).then(res => {
+                console.log('login', res)
+                commit('SET_TOKEN', res.token.accessToken)
+                setToken('admin_token', res.token.accessToken)
+                commit('SET_USERID', res.token.userId)
+                setToken('userId', res.token.userId)
 
-  // get user info
-  getInfo({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
+                resolve(res)
+            }).catch(error => {
+                reject(error)
+            })
+        })
+    },
 
-        if (!data) {
-          reject('Verification failed, please Login again.')
-        }
+    // 获取账号信息  同时肩负判断token是否过期
+    getInfo({ commit, state }) {
+        return new Promise((resolve, reject) => {
+            adminUserInfoOwn().then(res => {
+                if (!res) {
+                    return reject('验证失败，请重新登录')
+                }
+                console.log('getInfo', res);
+                
+                // 按钮权限控制 
 
-        const { roles, name, avatar, introduction } = data
+                let btn = [];
+                for (const item of res.buttons) {
+                    btn.push(item.identify)
+                }
+                commit('SET_BTN', btn)
 
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        commit('SET_INTRODUCTION', introduction)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
+                // 获取权限路由
+                let searchIndex = (i) => {
+                    for (const item of componentList) {
+                        if (item.title == i) {
+                            return item.component;
+                        }
+                    }
+                }
 
-  // user logout
-  logout({ commit, state, dispatch }) {
-    return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        removeToken()
-        resetRouter()
+                // 只支持一层嵌套 2层需修改
+                let routerArr = [];
+                for (const item of res.permissionVOList) {
+                    let obj = {}
+                    obj.path = item.menuPath;
+                    obj.name = item.menuPath.split('/')[1];
+                    obj.meta = {
+                        title: item.name,
+                        icon: item.icon
+                    };
+                    obj.component = searchIndex(obj.name);
+                    obj.redirect = item.menuPath + '/' + item.children[0].menuPath;
+                    let arr = []
+                    for (const i of item.children) {
+                        let c = {}
+                        c.path = i.menuPath;
+                        c.name = i.menuPath;
+                        c.meta = {
+                            title: i.name,
+                            icon: i.icon
+                        };
+                        c.component = searchIndex(c.name);
 
-        // reset visited views and cached views
-        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-        dispatch('tagsView/delAllViews', null, { root: true })
 
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
+                        // 最好不要做成侧边栏 不显示的页面 做成页面内组件就好
+                        if(c.name == 'goods/specifications'){
+                            c.hidden = true;
+                        }
+                        arr.push(c);
+                    }
+                    obj.children = arr;
+                    routerArr.push(obj)
+                }
+      
+                // root 账户 
+                // commit('CHANGE_ROUTER', root)
+                // 正常权限
+                commit('CHANGE_ROUTER', [...routerArr, ...err])
+                const { name } = res
+                commit('SET_NAME', name)
+                // 没有头像空 默认
+                commit('SET_AVATAR', require('@/assets/avater.png'))
+                resolve(res)
+            }).catch(error => {
+                reject(error)
+            })
+        })
+    },
 
-  // remove token
-  resetToken({ commit }) {
-    return new Promise(resolve => {
-      commit('SET_TOKEN', '')
-      commit('SET_ROLES', [])
-      removeToken()
-      resolve()
-    })
-  },
-
-  // dynamically modify permissions
-  async changeRoles({ commit, dispatch }, role) {
-    const token = role + '-token'
-
-    commit('SET_TOKEN', token)
-    setToken(token)
-
-    const { roles } = await dispatch('getInfo')
-
-    resetRouter()
-
-    // generate accessible routes map based on roles
-    const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
-    // dynamically add accessible routes
-    for (const item of accessRoutes) {
-      router.addRoute(item)
+    // 废弃
+    getBtn({ commit, state }, data) {
+        return new Promise((resolve, reject) => {
+            if (state.btnGroup.indexOf(data) == -1) {
+                Message.error('没有此按钮权限')
+                return 
+            } else {
+                return resolve()
+            }
+        })
+    },
+    // 账号登出
+    logout({ commit, state }) {
+        return new Promise((resolve, reject) => {
+            removeToken('userId')
+            removeToken('admin_token')
+            resetRouter()
+            commit('RESET_STATE')
+            resolve()
+        })
     }
 
-    // reset visited views and cached views
-    dispatch('tagsView/delAllViews', null, { root: true })
-  }
 }
 
 export default {
-  namespaced: true,
-  state,
-  mutations,
-  actions
+    namespaced: true,
+    state,
+    mutations,
+    actions
 }
+

@@ -1,45 +1,44 @@
 <template>
   <div :class="classObj" class="app-wrapper">
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
+    <div
+      v-if="device === 'mobile' && sidebar.opened"
+      class="drawer-bg"
+      @click="handleClickOutside"
+    />
     <sidebar class="sidebar-container" />
-    <div :class="{hasTagsView:needTagsView}" class="main-container">
-      <div :class="{'fixed-header':fixedHeader}">
+    <div class="main-container">
+      <div :class="{ 'fixed-header': fixedHeader }">
         <navbar />
-        <tags-view v-if="needTagsView" />
       </div>
-      <app-main />
-      <right-panel v-if="showSettings">
-        <settings />
-      </right-panel>
+      <div style="padding: 10px 10px;">
+        <app-main />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import RightPanel from '@/components/RightPanel'
-import { AppMain, Navbar, Settings, Sidebar, TagsView } from './components'
+import { Navbar, Sidebar, AppMain } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
-import { mapState } from 'vuex'
 
 export default {
   name: 'Layout',
   components: {
-    AppMain,
     Navbar,
-    RightPanel,
-    Settings,
     Sidebar,
-    TagsView
+    AppMain
   },
   mixins: [ResizeMixin],
   computed: {
-    ...mapState({
-      sidebar: state => state.app.sidebar,
-      device: state => state.app.device,
-      showSettings: state => state.settings.showSettings,
-      needTagsView: state => state.settings.tagsView,
-      fixedHeader: state => state.settings.fixedHeader
-    }),
+    sidebar() {
+      return this.$store.state.app.sidebar
+    },
+    device() {
+      return this.$store.state.app.device
+    },
+    fixedHeader() {
+      return this.$store.state.settings.fixedHeader
+    },
     classObj() {
       return {
         hideSidebar: !this.sidebar.opened,
@@ -51,29 +50,29 @@ export default {
   },
   methods: {
     handleClickOutside() {
-      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
+      this.$store.dispatch('app/closeSideBar', {
+        withoutAnimation: false
+      })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/mixin.scss";
-  @import "~@/styles/variables.scss";
+@import "~@/styles/mixin.scss";
+@import "~@/styles/variables.scss";
 
-  .app-wrapper {
+.app-wrapper {
     @include clearfix;
     position: relative;
     height: 100%;
     width: 100%;
-
     &.mobile.openSidebar {
-      position: fixed;
-      top: 0;
+        position: fixed;
+        top: 0;
     }
-  }
-
-  .drawer-bg {
+}
+.drawer-bg {
     background: #000;
     opacity: 0.3;
     width: 100%;
@@ -81,22 +80,22 @@ export default {
     height: 100%;
     position: absolute;
     z-index: 999;
-  }
+}
 
-  .fixed-header {
+.fixed-header {
     position: fixed;
     top: 0;
     right: 0;
     z-index: 9;
     width: calc(100% - #{$sideBarWidth});
     transition: width 0.28s;
-  }
+}
 
-  .hideSidebar .fixed-header {
-    width: calc(100% - 54px)
-  }
+.hideSidebar .fixed-header {
+    width: calc(100% - 54px);
+}
 
-  .mobile .fixed-header {
+.mobile .fixed-header {
     width: 100%;
-  }
+}
 </style>
