@@ -78,4 +78,6 @@ export const componentList = [
     { title: 'manageUsers', component: () => import('@/views/authority/manageUsers/index') },
     { title: 'assignAuthority', component: () => import('@/views/authority/assignAuthority/index') },
 
+    { title: 'otherConfig', component: Layout },
+    { title: 'Swiper', component: () => import('@/views/otherConfig/Swiper/index') },
 ]

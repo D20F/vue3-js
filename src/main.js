@@ -8,21 +8,23 @@ import router from './router'
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
 
 
+import '@/icons'
 import '@/styles/index.scss' // global css
-import '@/permission' // permission control
+import '@/permission'
+import directive from '@/directive' 
+import components from '@/components'
 
-// import '@/icons' // icon
 
-import ic from '@/icons' // icon
 
 
 const app = createApp(App)
-
-ic(app)
-
-
 app.config.productionTip = false
 
+
+
+
+app.use(directive)
+app.use(components)
 app.use(ElementPlus)
 app.use(store)
 app.use(router)

@@ -108,7 +108,7 @@
         <el-dialog
             title="新增人员"
             @close="dialogClose"
-            :visible.sync="dialogFormVisible"
+            v-model="dialogFormVisible"
         >
             <el-form :model="form">
                 <el-form-item label="用户组" label-width="70px">
@@ -160,7 +160,7 @@
         <el-dialog
             title="编辑人员"
             @close="dialogClose"
-            :visible.sync="dialogFormEdit"
+            v-model="dialogFormEdit"
         >
             <el-form :model="formEdit">
                 <el-form-item label="用户组" label-width="70px">

@@ -51,7 +51,7 @@
         </el-pagination>
         <el-dialog
             title="权限配置"
-            :visible.sync="dialogFormVisible"
+            v-model="dialogFormVisible"
             @close="dialogClose"
         >
             <el-button

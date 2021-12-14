@@ -30,6 +30,8 @@ router.beforeEach(async (to, from, next) => {
                 try {
                     // 获取用户信息 以及权限
                     await store.dispatch('user/getInfo')
+
+
                     // 添加路由
                     for (const item of toRaw(store.getters.routerOption)) {
                         router.addRoute(item)

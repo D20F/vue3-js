@@ -118,7 +118,7 @@
             </div>
         </div>
 
-        <el-dialog title="新增" :visible.sync="dialogFormVisible">
+        <el-dialog title="新增" v-model="dialogFormVisible">
             <el-form :model="form">
                 <el-form-item label="上级菜单" label-width="70px">
                     <el-input

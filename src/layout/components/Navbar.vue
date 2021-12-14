@@ -1,57 +1,65 @@
 <template>
-  <div class="navbar">
-    <hamburger
-      :is-active="sidebar.opened"
-      class="hamburger-container"
-      @toggleClick="toggleSideBar"
-    />
+    <div class="navbar">
+        <hamburger
+            :is-active="sidebar.opened"
+            class="hamburger-container"
+            @toggleClick="toggleSideBar"
+        />
 
-    <breadcrumb class="breadcrumb-container" />
+        <breadcrumb class="breadcrumb-container" />
 
-    <div class="right-menu">
-      <el-dropdown class="avatar-container" placement="bottom" trigger="hover">
-        <div class="avatar-wrapper">
-          <img :src="avatar" class="user-avatar">
-          <div class="right-name">
-            <p>{{ name }}</p>
-          </div>
+        <div class="right-menu">
+            <el-dropdown class="avatar-container">
+                <div class="avatar-wrapper">
+                    <img :src="avatar" class="user-avatar" />
+                    <div class="right-name">
+                        <p>{{ name }}</p>
+                    </div>
+                </div>
+                <template #dropdown class="user-dropdown">
+                    <el-dropdown-menu>
+                        <router-link to="/">
+                            <el-dropdown-item icon="el-icon-user">
+                                主页
+                            </el-dropdown-item>
+                        </router-link>
+                        <el-dropdown-item
+                            icon="el-icon-switch-button"
+                            divided
+                            @click="logout"
+                        >
+                            退出
+                        </el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
+            </el-dropdown>
         </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item icon="el-icon-user"> 主页 </el-dropdown-item>
-          </router-link>
-          <el-dropdown-item icon="el-icon-switch-button" divided @click.native="logout">
-            退出
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
     </div>
-  </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
+import { mapGetters } from "vuex";
+import Breadcrumb from "@/components/Breadcrumb";
+import Hamburger from "@/components/Hamburger";
 
 export default {
-  components: {
-    Breadcrumb,
-    Hamburger
-  },
-  computed: {
-    ...mapGetters(['sidebar', 'name', 'avatar'])
-  },
-  methods: {
-    toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
+    components: {
+        Breadcrumb,
+        Hamburger,
     },
-    async logout() {
-      await this.$store.dispatch('user/logout')
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
-    }
-  }
-}
+    computed: {
+        ...mapGetters(["sidebar", "name", "avatar"]),
+    },
+    methods: {
+        toggleSideBar() {
+            this.$store.dispatch("app/toggleSideBar");
+        },
+        async logout() {
+            await this.$store.dispatch("user/logout");
+            this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+        },
+    },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -67,7 +75,7 @@ export default {
         height: 100%;
         float: left;
         cursor: pointer;
-        transition: background 0.3s;
+        transition: "background" 0.3s;
         -webkit-tap-highlight-color: transparent;
 
         &:hover {
@@ -96,7 +104,7 @@ export default {
 
             &.hover-effect {
                 cursor: pointer;
-                transition: background 0.3s;
+                transition: "background" 0.3s;
 
                 &:hover {
                     background: rgba(0, 0, 0, 0.025);
@@ -137,7 +145,6 @@ export default {
                 }
             }
         }
-
     }
 }
 </style>

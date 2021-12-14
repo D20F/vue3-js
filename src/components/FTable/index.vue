@@ -3,8 +3,8 @@
         <el-table
             :data="tableData"
             v-loading="tableDataLoading"
-            max-height="786px"
             style="width: 100%"
+            :fit="true"
         >
             <el-table-column
                 v-for="(item, index) in rowHeader"
@@ -12,11 +12,11 @@
                 :prop="item.value"
                 :show-overflow-tooltip="item.overflow"
                 :label="item.label"
-                :width="item.width"
+                :width="item.width || '{}'"
                 :fixed="item.fixed"
                 :align="item.align"
             >
-                <template slot-scope="scope">
+                <template #default="scope">
                     <openTinymce
                         v-if="item.columnType == 'tinymce'"
                         :content="scope.row[item.value]"
@@ -52,66 +52,16 @@
                 </template>
             </el-table-column>
             <el-table-column label="操作" width="150px">
-                <template slot-scope="scope">
-                    <slot name="operate" v-bind:scope="scope"> </slot>
+                <template #default="scope">
+                    <slot name="operate" :scope="scope"> </slot>
                 </template>
             </el-table-column>
         </el-table>
     </div>
 </template>
 <script>
-/**
- *  columnType: '', 类型
- *  value: '',      键值
- *  overflow: '',   show-overflow-tooltip
- *  label: '',
- *  width: '',
- *  fixed: '',
- *  align: '',
- */
-// <F-table
-//     :tableDataLoading="tableDataLoading"
-//     :rowHeader="rowHeader"
-//     :tableData="tableData"
-// >
-//     <template v-slot:operate="{ scope }">
-//         <el-button
-//             size="mini"
-//             v-permission="'industrialResources_edit'"
-//             @click="handleEdit(scope.row)"
-//             >编辑</el-button
-//         >
-//         <el-button
-//             size="mini"
-//             type="danger"
-//             v-permission="'industrialResources_delete'"
-//             @click="handleDelete(scope.row)"
-//             >删除</el-button
-//         >
-//     </template>
-// </F-table>
-// 自定义内容的组件
-var exSlot = {
-    functional: true,
-    props: {
-        row: Object,
-        render: Function,
-        index: Number,
-        column: {
-            type: Object,
-            default: null,
-        },
-    },
+import exSlot from "./ex-solt.vue";
 
-    render: (h, data) => {
-        const params = {
-            row: data.props.row,
-            index: data.props.index,
-        };
-        if (data.props.column) params.column = data.props.column;
-        return data.props.render(h, params);
-    },
-};
 export default {
     name: "FTable",
     components: {
@@ -127,15 +77,7 @@ export default {
         rowHeader: {
             type: Array,
             default: () => {
-                return [
-                    {
-                        columnType: "noHandle",
-                        value: "title",
-                        label: "标题",
-                        width: "60px",
-                        overflow: true,
-                    },
-                ];
+                return [];
             },
         },
         tableDataLoading: {

@@ -6,15 +6,15 @@
         <el-dialog
             width="70%"
             title="详情"
-            :visible.sync="dialogFormVisible"
+            v-model="dialogFormVisible"
             :modal="true"
             :destroy-on-close="true"
             :close-on-click-modal="false"
         >
             <div class="content" v-html="content"></div>
-            <div slot="footer" class="dialog-footer">
+            <template #footer class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">确 定</el-button>
-            </div>
+            </template>
         </el-dialog>
     </div>
 </template>

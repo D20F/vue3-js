@@ -9,7 +9,7 @@
         >
             上传
         </el-button>
-        <el-dialog :modal="false" :visible.sync="dialogVisible">
+        <el-dialog :modal="false" v-model="dialogVisible">
             <el-upload
                 :multiple="true"
                 :file-list="fileList"

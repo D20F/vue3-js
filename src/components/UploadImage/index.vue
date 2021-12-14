@@ -75,7 +75,7 @@ export default {
     },
     watch: {},
     created() {},
-    beforeDestroy() {},
+    beforeUnmount() {},
     methods: {
         uploadSectionFile(params) {
             // 每有一张图片 submit之后 就调用几次
