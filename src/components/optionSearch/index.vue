@@ -24,20 +24,20 @@
                 v-model="formList[item.value]"
                 :placeholder="item.placeholder"
                 type="date"
-                :value-format="item.valueFormat || 'yyyy-MM-dd HH:mm:ss'"
+                :value-format="item.valueFormat || 'YYYY-MM-DD'"
             >
-            </el-date-picker>
+            </el-date-picker> -->
 
-            <el-date-picker
+            <!-- <el-date-picker
                 v-else-if="item.type == 'datetime'"
                 v-model="formList[item.value]"
                 :placeholder="item.placeholder"
                 type="datetime"
                 :value-format="item.valueFormat || 'yyyy-MM-dd HH:mm:ss'"
             >
-            </el-date-picker>
+            </el-date-picker> -->
 
-            <el-row
+            <!-- <el-row
                 style="width: 480px"
                 :gutter="0"
                 v-else-if="item.type == 'timeInterval'"

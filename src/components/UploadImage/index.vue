@@ -11,18 +11,16 @@
         :limit="limit"
         :file-list="fileList"
     >
-        <el-button slot="trigger" size="small" type="primary"
-            >选取文件</el-button
-        >
-        <!-- <div slot="tip" class="el-upload__tip">
-            只能上传jpg/png文件，且不超过500kb
-        </div> -->
+        <template></template>
+        <template #trigger>
+            <el-button size="small" type="primary">选取文件</el-button>
+        </template>
     </el-upload>
 </template>
 
 <script>
 import { uploadImage } from "@/api/other";
-import { Loading } from "element-ui";
+import { ElLoading } from "element-plus";
 
 export default {
     name: "UploadImage",
@@ -35,7 +33,7 @@ export default {
             type: Boolean,
             default: false,
         },
-        value: {
+        modelValue: {
             type: [Array, String],
             default: () => {
                 return [];
@@ -50,9 +48,9 @@ export default {
     components: {},
     computed: {
         fileList() {
-            if (typeof this.value == "object") {
+            if (typeof this.modelValue == "object") {
                 let arr = [];
-                for (const item of this.value) {
+                for (const item of this.modelValue) {
                     arr.push({
                         name: item.split("/")[item.split("/").length - 1],
                         url: item,
@@ -60,13 +58,13 @@ export default {
                 }
                 return arr;
             }
-            if (this.value && typeof this.value == "string") {
+            if (this.modelValue && typeof this.modelValue == "string") {
                 return [
                     {
-                        name: this.value.split("/")[
-                            this.value.split("/").length - 1
+                        name: this.modelValue.split("/")[
+                            this.modelValue.split("/").length - 1
                         ],
-                        url: this.value,
+                        url: this.modelValue,
                     },
                 ];
             }
@@ -88,11 +86,11 @@ export default {
             if (this.uploadList.length == 0) {
                 this.$emit("uploadSuccess", []);
                 this.limit == 1
-                    ? this.$emit("input", "")
-                    : this.$emit("input", []);
+                    ? this.$emit("update:modelValue", "")
+                    : this.$emit("update:modelValue", []);
                 return;
             }
-            let loadingInstance = Loading.service({
+            let loadingInstance = ElLoading.service({
                 text: "上传中",
             });
 
@@ -137,8 +135,8 @@ export default {
                 });
                 this.$emit("uploadSuccess", [...res, ...successList]);
                 this.limit == 1
-                    ? this.$emit("input", res[0])
-                    : this.$emit("input", [...res, ...successList]);
+                    ? this.$emit("update:modelValue", res[0])
+                    : this.$emit("update:modelValue", [...res, ...successList]);
             });
 
             // 不使用submit

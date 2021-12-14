@@ -9,9 +9,9 @@
             :on-remove="onRemove"
             :limit="1"
         >
-            <el-button slot="trigger" size="small" type="primary"
-                >上传视频</el-button
-            >
+            <template #trigger>
+                <el-button size="small" type="primary">上传视频</el-button>
+            </template>
         </el-upload>
         <div class="video" v-if="video">
             <video :src="video" controls="controls"></video>
@@ -20,7 +20,7 @@
 </template>
 <script>
 import { uploadFile } from "@/api/other";
-import { Loading } from "element-ui";
+import { ElLoading } from "element-plus";
 
 export default {
     name: "uploadVideo",
@@ -47,7 +47,7 @@ export default {
             if (this.uploadList.length == 0) {
                 return this.$emit("uploadSuccess", "");
             }
-            let loadingInstance = Loading.service({
+            let loadingInstance = ElLoading.service({
                 text: "上传中",
             });
 

@@ -56,7 +56,7 @@
 //     };
 // });
 
-import { Message } from "element-ui";
+import { Message } from "element-plus";
 
 export default {
     name: "exportExcel",

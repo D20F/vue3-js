@@ -1,8 +1,5 @@
 <template>
     <div class="userGroup">
-
-        <!-- 搜索栏未解决 -->
-
         <optionSearch
             :rowHeader="headerHeader"
             v-model:headerForm="headerForm"
@@ -39,7 +36,7 @@
                 >
             </template>
         </FTable>
-        <!-- <el-pagination
+        <el-pagination
             class="pagination"
             background
             layout="total, prev, pager, next"
@@ -49,9 +46,9 @@
             @current-change="currentChange"
             :hide-on-single-page="true"
         >
-        </el-pagination> -->
+        </el-pagination>
 
-        <!-- <el-dialog
+        <el-dialog
             width="70%"
             title="新增文章"
             v-model="dialogFormVisible"
@@ -65,7 +62,7 @@
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
                 <el-button type="primary" @click="confirm">确 定</el-button>
             </template>
-        </el-dialog> -->
+        </el-dialog>
     </div>
 </template>
 
@@ -115,12 +112,12 @@ export default {
                     value: "cover",
                     label: "封面",
                 },
-                {
-                    type: "tinymce",
-                    placeholder: "请输入内容",
-                    value: "content",
-                    label: "内容",
-                },
+                // {
+                //     type: "tinymce",
+                //     placeholder: "请输入内容",
+                //     value: "content",
+                //     label: "内容",
+                // },
             ],
             form: {
                 title: "",
@@ -134,20 +131,6 @@ export default {
                     placeholder: "请输入电话",
                     value: "mobile",
                     label: "电话",
-                },
-                {
-                    type: "timeInterval",
-                    placeholder: ["开始", "结束"],
-                    value: ["startTime", "endTime"],
-                    label: "创建时间",
-                },
-                {
-                    type: "timeInterval",
-                    placeholder: ["开始", "结束"],
-                    value: ["makeDate1", "makeDate2"],
-                    dateType: ["date", "date"],
-                    valueFormat: ["yyyy-MM-dd", "yyyy-MM-dd"],
-                    label: "住店时间",
                 },
                 {
                     type: "select",

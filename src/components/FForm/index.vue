@@ -19,7 +19,7 @@
                 ></el-option>
             </el-select>
 
-            <el-date-picker
+            <!-- <el-date-picker
                 v-else-if="item.type == 'date'"
                 v-model="formList[item.value]"
                 :placeholder="item.placeholder"
@@ -67,7 +67,7 @@
                         "
                     ></el-date-picker>
                 </el-col>
-            </el-row>
+            </el-row> -->
 
             <Tinymce
                 v-else-if="item.type == 'tinymce'"
@@ -91,7 +91,7 @@
                 v-model="formList[item.value]"
                 :autoUpload="item.autoUpload || true"
             />
-            
+
             <el-input
                 v-else
                 v-model="formList[item.value]"
