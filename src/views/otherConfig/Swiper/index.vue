@@ -1,8 +1,5 @@
 <template>
     <div class="userGroup">
-
-        <!-- 差 from 富文本 -->
-
         <optionSearch
             :rowHeader="headerHeader"
             v-model:headerForm="headerForm"
@@ -18,6 +15,7 @@
             "
             >新增文章</el-button
         >
+
         <FTable
             :tableDataLoading="tableDataLoading"
             :rowHeader="tableHeader"
@@ -115,12 +113,58 @@ export default {
                     value: "cover",
                     label: "封面",
                 },
-                // {
-                //     type: "tinymce",
-                //     placeholder: "请输入内容",
-                //     value: "content",
-                //     label: "内容",
-                // },
+                {
+                    type: "video",
+                    value: "createTime",
+                    label: "封面s",
+                },
+                {
+                    type: "switch",
+                    placeholder: "请输入内容",
+                    value: "content",
+                    label: "内容",
+                },
+                {
+                    type: "datetimerange",
+                    placeholder: ["开始", "结束"],
+                    startValue: "startTime",
+                    endValue: "endTime",
+                    label: "创建时间",
+                },
+                {
+                    type: "datetime",
+                    placeholder: "开始",
+                    value: "makeDate1",
+                    label: "111创建时间",
+                },
+                {
+                    type: "date",
+                    placeholder: "开始",
+                    value: "makeDate2",
+                    label: "222创建时间",
+                },
+                {
+                    type: "select",
+                    placeholder: "请选择状态",
+                    value: "id",
+                    label: "状态",
+                    option: [
+                        {
+                            value: "1",
+                            label: "待处理",
+                        },
+                        {
+                            value: "2",
+                            label: "已处理",
+                        },
+                    ],
+                },
+                {
+                    type: "tinymce",
+                    placeholder: "请输入内容",
+                    value: "content",
+                    label: "内容",
+                },
             ],
             form: {
                 title: "",
@@ -163,6 +207,25 @@ export default {
                         },
                     ],
                 },
+                {
+                    type: "datetimerange",
+                    placeholder: ["开始", "结束"],
+                    startValue: "startTime",
+                    endValue: "endTime",
+                    label: "创建时间",
+                },
+                {
+                    type: "datetime",
+                    placeholder: "开始",
+                    value: "makeDate1",
+                    label: "111创建时间",
+                },
+                {
+                    type: "date",
+                    placeholder: "开始",
+                    value: "makeDate2",
+                    label: "222创建时间",
+                },
             ],
             headerForm: {
                 writeOffNo: "",
@@ -192,8 +255,9 @@ export default {
     },
     methods: {
         change() {
+            console.log(this.headerForm);
             this.page.page = 1;
-            this.getHomeAricle();
+            // this.getHomeAricle();
         },
         getHomeAricle() {
             let data = {
@@ -230,23 +294,24 @@ export default {
             }
         },
         confirm() {
-            if (this.confirmMode == "add") {
-                addHomeAricle(this.form).then((res) => {
-                    this.dialogFormVisible = false;
-                    this.$message({
-                        message: "创建成功",
-                        type: "success",
-                    });
-                });
-            } else if (this.confirmMode == "edit") {
-                homeAricleModify(this.form.id, this.form).then((res) => {
-                    this.dialogFormVisible = false;
-                    this.$message({
-                        message: "修改成功",
-                        type: "success",
-                    });
-                });
-            }
+            console.log(this.form);
+            // if (this.confirmMode == "add") {
+            //     addHomeAricle(this.form).then((res) => {
+            //         this.dialogFormVisible = false;
+            //         this.$message({
+            //             message: "创建成功",
+            //             type: "success",
+            //         });
+            //     });
+            // } else if (this.confirmMode == "edit") {
+            //     homeAricleModify(this.form.id, this.form).then((res) => {
+            //         this.dialogFormVisible = false;
+            //         this.$message({
+            //             message: "修改成功",
+            //             type: "success",
+            //         });
+            //     });
+            // }
         },
 
         currentChange(v) {

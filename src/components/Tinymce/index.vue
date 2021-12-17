@@ -30,7 +30,7 @@ export default {
         return 'vue-tinymce-' + +new Date() + ((Math.random() * 1000).toFixed(0) + '')
       }
     },
-    value: {
+    modelValue: {
       type: String,
       default: ''
     },
@@ -80,7 +80,7 @@ export default {
     }
   },
   watch: {
-    value(val) {
+    modelValue(val) {
       if (!this.hasChange && this.hasInit) {
         this.$nextTick(() =>
           window.tinymce.get(this.tinymceId).setContent(val || ''))
@@ -98,7 +98,7 @@ export default {
   deactivated() {
     this.destroyTinymce()
   },
-  destroyed() {
+  unmounted() {
     this.destroyTinymce()
   },
   methods: {
@@ -134,13 +134,13 @@ export default {
         link_title: false,
         nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin
         init_instance_callback: editor => {
-          if (_this.value) {
-            editor.setContent(_this.value)
+          if (_this.modelValue) {
+            editor.setContent(_this.modelValue)
           }
           _this.hasInit = true
           editor.on('NodeChange Change KeyUp SetContent', () => {
             this.hasChange = true
-            this.$emit('input', editor.getContent())
+            this.$emit('update:modelValue', editor.getContent())
           })
         },
         setup(editor) {
@@ -197,8 +197,8 @@ export default {
         tinymce.destroy()
       }
     },
-    setContent(value) {
-      window.tinymce.get(this.tinymceId).setContent(value)
+    setContent(modelValue) {
+      window.tinymce.get(this.tinymceId).setContent(modelValue)
     },
     getContent() {
       window.tinymce.get(this.tinymceId).getContent()

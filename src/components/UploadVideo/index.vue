@@ -9,12 +9,13 @@
             :on-remove="onRemove"
             :limit="1"
         >
+            <template></template>
             <template #trigger>
                 <el-button size="small" type="primary">上传视频</el-button>
             </template>
         </el-upload>
-        <div class="video" v-if="video">
-            <video :src="video" controls="controls"></video>
+        <div class="video" v-if="modelValue">
+            <video :src="modelValue" controls="controls"></video>
         </div>
     </div>
 </template>
@@ -26,9 +27,11 @@ export default {
     name: "uploadVideo",
     components: {},
     props: {
-        video: {
-            type: String,
-            default: "",
+        modelValue: {
+            type: [Array, String],
+            default: () => {
+                return [];
+            },
         },
         autoUpload: {
             type: Boolean,
@@ -45,7 +48,7 @@ export default {
         confirm(file, fileList) {
             // 未主动选择 不上传 直接用外面的url就好了
             if (this.uploadList.length == 0) {
-                return this.$emit("uploadSuccess", "");
+                return this.$emit("update:modelValue", "")
             }
             let loadingInstance = ElLoading.service({
                 text: "上传中",
@@ -59,7 +62,7 @@ export default {
                 this.$nextTick(() => {
                     loadingInstance.close();
                 });
-                this.$emit("uploadSuccess", res);
+                this.$emit("update:modelValue", res);
             });
         },
         onChange(file, fileList) {

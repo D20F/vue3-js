@@ -19,55 +19,25 @@
                 ></el-option>
             </el-select>
 
-            <!-- <el-date-picker
+            <datePicker
                 v-else-if="item.type == 'date'"
                 v-model="formList[item.value]"
                 :placeholder="item.placeholder"
                 type="date"
-                :value-format="item.valueFormat || 'YYYY-MM-DD'"
-            >
-            </el-date-picker> -->
-
-            <!-- <el-date-picker
+            />
+            <datePicker
                 v-else-if="item.type == 'datetime'"
                 v-model="formList[item.value]"
                 :placeholder="item.placeholder"
                 type="datetime"
-                :value-format="item.valueFormat || 'yyyy-MM-dd HH:mm:ss'"
-            >
-            </el-date-picker> -->
+            />
 
-            <!-- <el-row
-                style="width: 480px"
-                :gutter="0"
-                v-else-if="item.type == 'timeInterval'"
-            >
-                <el-col :span="11">
-                    <el-date-picker
-                        v-model="formList[item.value[0]]"
-                        :placeholder="item.placeholder[0]"
-                        :type="item.dateType ? item.dateType[0] : 'datetime'"
-                        :value-format="
-                            item.valueFormat
-                                ? item.valueFormat[0]
-                                : 'yyyy-MM-dd HH:mm:ss'
-                        "
-                    ></el-date-picker>
-                </el-col>
-                <el-col style="text-align: center" :span="2">-</el-col>
-                <el-col :span="11">
-                    <el-date-picker
-                        v-model="formList[item.value[1]]"
-                        :placeholder="item.placeholder[1]"
-                        :type="item.dateType ? item.dateType[1] : 'datetime'"
-                        :value-format="
-                            item.valueFormat
-                                ? item.valueFormat[1]
-                                : 'yyyy-MM-dd HH:mm:ss'
-                        "
-                    ></el-date-picker>
-                </el-col>
-            </el-row> -->
+            <datetimerange
+                v-else-if="item.type == 'datetimerange'"
+                :list="item"
+                v-model:startValue="formList[item.startValue]"
+                v-model:endValue="formList[item.endValue]"
+            />
 
             <el-input
                 v-else
@@ -88,18 +58,8 @@
 </template>
 
 <script>
-// {
-//     type: "datetime",
-//     labelWidth: "50px",
-//     placeholder: "请输入名称",
-//     value: "nickname",
-//     label: "名称",
-//     option: {
-//         label: "",
-//         value: "",
-//     }
-// }
-
+import datetimerange from "./datetimerange.vue";
+import datePicker from "./datePicker.vue";
 export default {
     name: "optionSearch",
     props: {
@@ -115,6 +75,10 @@ export default {
                 return {};
             },
         },
+    },
+    components: {
+        datetimerange,
+        datePicker,
     },
     computed: {},
     data() {
