@@ -23,33 +23,35 @@
                 :default-checked-keys="defaultSelect"
                 @current-change="currentChange"
             >
-                <span class="custom-tree-node" slot-scope="{ data }">
-                    <i
-                        v-if="data.type == 2"
-                        class="el-icon-picture-outline-round"
-                    ></i>
-                    <i v-else-if="data.type == 1" :class="data.icon"></i>
-                    <span>{{ data.name }}</span>
-                    <span v-if="data.name == form.name">
-                        <el-button
-                            v-if="data.type == 1"
-                            type="text"
-                            size="mini"
-                            v-permission="'rule_add'"
-                            @click.stop="append(data)"
-                        >
-                            新增
-                        </el-button>
-                        <el-button
-                            type="text"
-                            size="mini"
-                            v-permission="'rule_del'"
-                            @click.stop="remove(data)"
-                        >
-                            删除
-                        </el-button>
+                <template #default="{ data }">
+                    <span class="custom-tree-node" >
+                        <i
+                            v-if="data.type == 2"
+                            class="el-icon-picture-outline-round"
+                        ></i>
+                        <i v-else-if="data.type == 1" :class="data.icon"></i>
+                        <span>{{ data.name }}</span>
+                        <span v-if="data.name == form.name">
+                            <el-button
+                                v-if="data.type == 1"
+                                type="text"
+                                size="mini"
+                                v-permission="'rule_add'"
+                                @click.stop="append(data)"
+                            >
+                                新增
+                            </el-button>
+                            <el-button
+                                type="text"
+                                size="mini"
+                                v-permission="'rule_del'"
+                                @click.stop="remove(data)"
+                            >
+                                删除
+                            </el-button>
+                        </span>
                     </span>
-                </span>
+                </template>
             </el-tree>
         </div>
 
@@ -108,7 +110,7 @@
                     ></el-input>
                 </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
+            <div class="dialog-footer">
                 <el-button
                     type="primary"
                     v-permission="'rule_edit'"
@@ -182,12 +184,12 @@
                     ></el-input>
                 </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
+            <template #footer class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
                 <el-button type="primary" @click="dialogConfirm"
                     >确 定</el-button
                 >
-            </div>
+            </template>
         </el-dialog>
     </div>
 </template>

@@ -55,7 +55,7 @@
             <el-table-column prop="createTime" label="创建时间">
             </el-table-column>
             <el-table-column label="操作">
-                <template slot-scope="scope">
+                <template #default="scope">
                     <el-button
                         size="mini"
                         v-permission="'manager_edit'"
@@ -63,26 +63,21 @@
                         >编辑</el-button
                     >
 
-                    <el-tooltip
-                        class="item"
-                        effect="dark"
-                        content="重置密码为 123456"
-                        placement="top"
-                        style="margin: 0 10px"
+                    <el-popconfirm
+                        @confirm="handleRest(scope.row.id)"
+                        confirm-button-text="确认"
+                        cancel-button-text="取消"
+                        icon="el-icon-info"
+                        title="确定重置密码为123456吗？"
                     >
-                        <el-popconfirm
-                            v-permission="'manager_password'"
-                            @onConfirm="handleRest(scope.row.id)"
-                            confirm-button-text="确认"
-                            cancel-button-text="取消"
-                            icon="el-icon-info"
-                            title="确定重置吗？"
-                        >
-                            <el-button slot="reference" size="mini"
+                        <template #reference>
+                            <el-button
+                                v-permission="'manager_password'"
+                                size="mini"
                                 >重置</el-button
                             >
-                        </el-popconfirm>
-                    </el-tooltip>
+                        </template>
+                    </el-popconfirm>
 
                     <el-button
                         size="mini"
@@ -100,7 +95,7 @@
             layout="total, prev, pager, next"
             :total="page.total"
             :page-size="page.pageSize"
-            :current-page.sync="page.page"
+            v-model:current-page="page.page"
             @current-change="currentChange"
             :hide-on-single-page="true"
         >
@@ -151,10 +146,10 @@
                     <el-input v-model="form.name" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
+            <template #footer class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
                 <el-button type="primary" @click="confirm">确 定</el-button>
-            </div>
+            </template>
         </el-dialog>
 
         <el-dialog
@@ -184,10 +179,10 @@
                     ></el-input>
                 </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
+            <template #footer class="dialog-footer">
                 <el-button @click="dialogFormEdit = false">取 消</el-button>
                 <el-button type="primary" @click="EditUser">确 定</el-button>
-            </div>
+            </template>
         </el-dialog>
     </div>
 </template>

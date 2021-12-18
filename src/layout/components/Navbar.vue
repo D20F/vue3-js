@@ -24,6 +24,13 @@
                             </el-dropdown-item>
                         </router-link>
                         <el-dropdown-item
+                            icon="el-icon-edit"
+                            divided
+                            @click="dialogFormVisible = true"
+                        >
+                            修改密码
+                        </el-dropdown-item>
+                        <el-dropdown-item
                             icon="el-icon-switch-button"
                             divided
                             @click="logout"
@@ -34,6 +41,41 @@
                 </template>
             </el-dropdown>
         </div>
+        <el-dialog
+            title="修改密码"
+            v-model="dialogFormVisible"
+            :modal="true"
+            :destroy-on-close="true"
+            :close-on-click-modal="false"
+        >
+            <el-form :model="form">
+                <el-form-item label="旧密码" label-width="100px">
+                    <el-input
+                        v-model="form.oldPassword"
+                        autocomplete="off"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item label="新密码" label-width="100px">
+                    <el-input
+                        show-password
+                        v-model="form.newPassword"
+                        autocomplete="off"
+                    ></el-input>
+                </el-form-item>
+                <el-form-item label="再次输入密码" label-width="100px">
+                    <el-input
+                        show-password
+                        v-model="form.newPasswords"
+                        autocomplete="off"
+                    ></el-input>
+                </el-form-item>
+            </el-form>
+
+            <template #footer class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="confirm">确 定</el-button>
+            </template>
+        </el-dialog>
     </div>
 </template>
 
@@ -41,8 +83,20 @@
 import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
+import { adminUserPasswordUpdate } from "@/api/authority";
+import { ElMessage } from "element-plus";
 
 export default {
+    data() {
+        return {
+            dialogFormVisible: false,
+            form: {
+                oldPassword: "",
+                newPassword: "",
+                newPasswords: "",
+            },
+        };
+    },
     components: {
         Breadcrumb,
         Hamburger,
@@ -57,6 +111,41 @@ export default {
         async logout() {
             await this.$store.dispatch("user/logout");
             this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+        },
+        confirm() {
+            if (this.form.newPassword.length < 6) {
+                return ElMessage({
+                    message: "密码长度需要大于6位",
+                    type: "error",
+                    duration: 3 * 1000,
+                });
+            }
+            if (this.form.newPassword !== this.form.newPasswords) {
+                return ElMessage({
+                    message: "两次输入密码不同",
+                    type: "error",
+                    duration: 3 * 1000,
+                });
+            }
+            let data = {
+                newPassword: this.form.newPassword,
+                oldPassword: this.form.oldPassword,
+            };
+            adminUserPasswordUpdate(data).then((res) => {
+                ElMessage({
+                    message: "修改成功,请重新登录",
+                    type: "success",
+                    duration: 3 * 1000,
+                });
+                this.dialogFormVisible = false;
+                this.form = {
+                    oldPassword: "",
+                    newPassword: "",
+                    newPasswords: "",
+                };
+                this.$store.dispatch("user/logout");
+                this.$router.replace("/login");
+            });
         },
     },
 };

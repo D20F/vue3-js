@@ -91,6 +91,16 @@ export const adminUserPasswordReset = (id) => {
     return putData(url, data);
 }
 /*
+    修改管理后台用户密码
+    params:{
+    }
+*/
+export const adminUserPasswordUpdate = (reqData) => {
+    const url = '/adminUser/password/update';
+    const data = reqData;
+    return putData(url, data);
+}
+/*
     管理后台权限分页查询
     params:{
     }

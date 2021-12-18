@@ -20,8 +20,8 @@
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间">
             </el-table-column>
-            <el-table-column label="操作">
-                <template slot-scope="scope">
+            <el-table-column label="操作" width="150px">
+                <template #default="scope">
                     <el-button
                         size="mini"
                         v-permission="'group_edit'"
@@ -44,7 +44,7 @@
             layout="total, prev, pager, next"
             :total="page.total"
             :page-size="page.pageSize"
-            :current-page.sync="page.page"
+            v-model:current-page="page.page"
             @current-change="currentChange"
             :hide-on-single-page="true"
         >
@@ -53,6 +53,8 @@
             title="权限配置"
             v-model="dialogFormVisible"
             @close="dialogClose"
+            :destroy-on-close="true"
+            :close-on-click-modal="false"
         >
             <el-button
                 type="primary"
@@ -68,13 +70,13 @@
                 round
                 >清空</el-button
             >
-
             <el-input
                 style="margin: 10px 0"
                 placeholder="输入关键字进行过滤"
                 v-model="filterText"
             >
             </el-input>
+
             <el-tree
                 :data="tree"
                 show-checkbox
@@ -85,9 +87,8 @@
                 :filter-node-method="filterNode"
                 :default-checked-keys="defaultSelect"
                 check-strictly
-            >
-                <!-- 启动父子级不严格关联 check-strictly -->
-            </el-tree>
+            />
+
             <el-form :model="form">
                 <el-form-item label="名称" label-width="40px">
                     <el-input
@@ -102,10 +103,10 @@
                     ></el-input>
                 </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
+            <template #footer class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
                 <el-button type="primary" @click="confirm">确 定</el-button>
-            </div>
+            </template>
         </el-dialog>
     </div>
 </template>

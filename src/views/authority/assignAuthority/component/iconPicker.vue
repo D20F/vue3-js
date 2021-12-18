@@ -26,7 +26,7 @@
             </div>
         </el-scrollbar>
 
-        <template slot="reference">
+        <template #reference>
             <div
                 :class="{
                     'mod-select-icon': 1,
