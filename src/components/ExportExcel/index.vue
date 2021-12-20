@@ -56,7 +56,7 @@
 //     };
 // });
 
-import { Message } from "element-plus";
+import { ElMessage } from "element-plus";
 
 export default {
     name: "exportExcel",
@@ -98,14 +98,14 @@ export default {
         handleDownload() {
             if (this.mode) {
                 if (this.current % 10 !== 0) {
-                    return Message({
+                    return ElMessage({
                         message: "请输入10位基数的条数",
                         type: "error",
                         duration: 3 * 1000,
                     });
                 }
                 if (!this.size) {
-                    return Message({
+                    return ElMessage({
                         message: "请输入导出条数",
                         type: "error",
                         duration: 3 * 1000,

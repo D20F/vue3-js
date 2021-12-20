@@ -72,7 +72,48 @@ export default {
         rowHeader: {
             type: Array,
             default: () => {
-                return {};
+                return [
+                    // {
+                    //     placeholder: "请输入电话",
+                    //     value: "mobile",
+                    //     label: "电话",
+                    // },
+                    // {
+                    //     type: "select",
+                    //     placeholder: "请选择状态",
+                    //     value: "status",
+                    //     label: "状态",
+                    //     option: [
+                    //         {
+                    //             value: "-1",
+                    //             label: "已取消",
+                    //         },
+                    //         {
+                    //             value: "1",
+                    //             label: "待支付",
+                    //         },
+                    //     ],
+                    // },
+                    // {
+                    //     type: "datetimerange",
+                    //     placeholder: ["开始", "结束"],
+                    //     startValue: "startTime",
+                    //     endValue: "endTime",
+                    //     label: "创建时间",
+                    // },
+                    // {
+                    //     type: "datetime",
+                    //     placeholder: "开始",
+                    //     value: "makeDate1",
+                    //     label: "111创建时间",
+                    // },
+                    // {
+                    //     type: "date",
+                    //     placeholder: "开始",
+                    //     value: "makeDate2",
+                    //     label: "222创建时间",
+                    // },
+                ];
             },
         },
     },

@@ -1,7 +1,7 @@
 import { login, adminUserInfoOwn } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
-import { Message } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import {
     root,
     err,
@@ -144,7 +144,7 @@ const actions = {
     getBtn({ commit, state }, data) {
         return new Promise((resolve, reject) => {
             if (state.btnGroup.indexOf(data) == -1) {
-                Message.error('没有此按钮权限')
+                ElMessage.error('没有此按钮权限')
                 return 
             } else {
                 return resolve()

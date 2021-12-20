@@ -2,7 +2,7 @@
 
 
 import axios from 'axios'
-import { Message } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 import store from '@/store'
 import { getToken } from '@/utils/auth'
@@ -53,7 +53,7 @@ service.interceptors.response.use(
         // 状态码报错
         if (res.status !== 200) {
             if (res.status == 401) {
-                Message({
+                ElMessage({
                     message: '登陆过期请重新登录',
                     type: 'error',
                     duration: 3 * 1000
@@ -61,7 +61,7 @@ service.interceptors.response.use(
                 store.dispatch('user/logout')
                 router.replace('/login')
             } else {
-                Message({
+                ElMessage({
                     message: res.message || 'Error',
                     type: 'error',
                     duration: 3 * 1000
@@ -74,7 +74,7 @@ service.interceptors.response.use(
     },
     error => {
         // console.log(error)
-        Message({
+        ElMessage({
             message: error,
             type: 'error',
             duration: 3 * 1000

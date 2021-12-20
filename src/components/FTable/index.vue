@@ -77,7 +77,35 @@ export default {
         rowHeader: {
             type: Array,
             default: () => {
-                return [];
+                return [
+                    // {
+                    //     value: "title",
+                    //     label: "标题",
+                    // },
+                    // {
+                    //     columnType: "image",
+                    //     value: "cover",
+                    //     label: "封面",
+                    // },
+                    // {
+                    //     columnType: "tinymce",
+                    //     value: "tinymce",
+                    //     label: "富文本",
+                    // },
+                    // {
+                    //     value: "content",
+                    //     columnType: "render",
+                    //     label: "内容",
+                    //     render: (h, params) => {
+                    //         return h(
+                    //             "span",
+                    //             params.row.industrialParkStatus
+                    //                 ? "显示"
+                    //                 : "不显示"
+                    //         );
+                    //     },
+                    // },
+                ];
             },
         },
         tableDataLoading: {

@@ -1,6 +1,6 @@
 <template>
     <div class="userGroup">
-        <optionSearch
+        <!-- <optionSearch
             :rowHeader="headerHeader"
             v-model:headerForm="headerForm"
             @change="change"
@@ -63,7 +63,9 @@
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
                 <el-button type="primary" @click="confirm">确 定</el-button>
             </template>
-        </el-dialog>
+        </el-dialog> -->
+
+        <textarea id="open-source-plugins"> </textarea>
     </div>
 </template>
 
@@ -74,6 +76,8 @@ import {
     homeAricleModify, //修改
     getHomeAricle, //分页查询
 } from "@/api/other";
+import tinymce from "tinymce";
+
 export default {
     name: "Swiper",
     data() {
@@ -252,6 +256,21 @@ export default {
     watch: {},
     created() {
         this.getHomeAricle();
+    },
+    mounted() {
+        this.$nextTick(() => {
+            tinymce.init({
+                selector: "#tinydemo", //容器，可使用css选择器
+                language: "zh_CN", //调用放在langs文件夹内的语言包
+                toolbar: false, //隐藏工具栏
+                menubar: false, //隐藏菜单栏
+                inline: true, //开启内联模式
+                plugins: ["quickbars", "link", "table"], //选择需加载的插件
+                //选中时出现的快捷工具，与插件有依赖关系
+                quickbars_selection_toolbar:
+                    "bold italic forecolor | link blockquote quickimage",
+            });
+        });
     },
     methods: {
         change() {

@@ -98,7 +98,70 @@ export default {
         rowHeader: {
             type: Array,
             default: () => {
-                return {};
+                return [
+                    // {
+                    //     placeholder: "请输入标题",
+                    //     value: "title",
+                    //     label: "标题",
+                    // },
+                    // {
+                    //     type: "image",
+                    //     value: "cover",
+                    //     label: "封面",
+                    // },
+                    // {
+                    //     type: "video",
+                    //     value: "video",
+                    //     label: "视频",
+                    // },
+                    // {
+                    //     type: "switch",
+                    //     placeholder: "请选择",
+                    //     value: "content",
+                    //     label: "是否",
+                    // },
+                    // {
+                    //     type: "datetimerange",
+                    //     placeholder: ["开始", "结束"],
+                    //     startValue: "startTime",
+                    //     endValue: "endTime",
+                    //     label: "创建时间",
+                    // },
+                    // {
+                    //     type: "datetime",
+                    //     placeholder: "开始",
+                    //     value: "makeDate1",
+                    //     label: "111创建时间",
+                    // },
+                    // {
+                    //     type: "date",
+                    //     placeholder: "开始",
+                    //     value: "makeDate2",
+                    //     label: "222创建时间",
+                    // },
+                    // {
+                    //     type: "select",
+                    //     placeholder: "请选择状态",
+                    //     value: "id",
+                    //     label: "状态",
+                    //     option: [
+                    //         {
+                    //             value: "1",
+                    //             label: "待处理",
+                    //         },
+                    //         {
+                    //             value: "2",
+                    //             label: "已处理",
+                    //         },
+                    //     ],
+                    // },
+                    // {
+                    //     type: "tinymce",
+                    //     placeholder: "请输入内容",
+                    //     value: "content",
+                    //     label: "内容",
+                    // },
+                ];
             },
         },
     },
@@ -113,7 +176,10 @@ export default {
     data() {
         return { formList: this.headerForm };
     },
-    created() {},
+    created() {
+        // console.log(this.headerForm)
+        // console.log(this.rowHeader)
+    },
     methods: {},
 };
 </script>
