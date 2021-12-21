@@ -1,10 +1,12 @@
 <template>
-    <el-form :model="formList" label-width="80px">
+    <el-form :model="formList" :label-width="formLabelWidth" ref="form">
         <el-form-item
             v-for="(item, index) in rowHeader"
             :key="index"
             :label="item.label"
             :label-width="item.labelWidth"
+            :rules="item.rules"
+            :prop="item.value"
         >
             <el-select
                 v-if="item.type == 'select'"
@@ -86,9 +88,15 @@ import UploadImage from "@/components/UploadImage";
 import UploadVideo from "@/components/UploadVideo";
 import datePicker from "../optionSearch/datePicker.vue";
 import datetimerange from "../optionSearch/datetimerange.vue";
+import { ElMessage } from "element-plus";
+
 export default {
     name: "FForm",
     props: {
+        formLabelWidth: {
+            type: String,
+            default: "",
+        },
         headerForm: {
             type: Object,
             default: () => {
@@ -103,6 +111,15 @@ export default {
                     //     placeholder: "请输入标题",
                     //     value: "title",
                     //     label: "标题",
+                    //     rules: [
+                    //         {
+                    //             validator: (rule, value, callback) => {
+                    //                 value == ""
+                    //                     ? callback("这里填出错信息")
+                    //                     : callback();
+                    //             },
+                    //         },
+                    //     ],
                     // },
                     // {
                     //     type: "image",
@@ -176,11 +193,23 @@ export default {
     data() {
         return { formList: this.headerForm };
     },
-    created() {
-        // console.log(this.headerForm)
-        // console.log(this.rowHeader)
+    created() {},
+    methods: {
+        submitForm() {
+            return new Promise((resolve, reject) => {
+                this.$refs.form.validate((valid, list) => {
+                    for (let item in list) {
+                        return ElMessage({
+                            message: list[item][0].message,
+                            type: "error",
+                            duration: 2 * 1000,
+                        });
+                    }
+                    valid ? resolve("成功") : reject("失败");
+                });
+            });
+        },
     },
-    methods: {},
 };
 </script>
 

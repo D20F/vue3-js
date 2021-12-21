@@ -58,13 +58,18 @@
             :destroy-on-close="true"
             :close-on-click-modal="false"
         >
-            <F-form :rowHeader="formHeader" v-model:headerForm="form"> </F-form>
+            <F-form
+                :rowHeader="formHeader"
+                formLabelWidth="70px"
+                v-model:headerForm="form"
+                ref="form"
+            >
+            </F-form>
             <template #footer class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
                 <el-button type="primary" @click="confirm">确 定</el-button>
             </template>
         </el-dialog>
-
     </div>
 </template>
 
@@ -75,7 +80,6 @@ import {
     homeAricleModify, //修改
     getHomeAricle, //分页查询
 } from "@/api/other";
-
 
 export default {
     name: "Swiper",
@@ -112,6 +116,11 @@ export default {
                     label: "标题",
                 },
                 {
+                    placeholder: "请输入标题",
+                    value: "id",
+                    label: "标题",
+                },
+                {
                     type: "image",
                     value: "cover",
                     label: "封面",
@@ -138,13 +147,13 @@ export default {
                     type: "datetime",
                     placeholder: "开始",
                     value: "makeDate1",
-                    label: "111创建时间",
+                    label: "创建时间",
                 },
                 {
                     type: "date",
                     placeholder: "开始",
                     value: "makeDate2",
-                    label: "222创建时间",
+                    label: "创建时间",
                 },
                 {
                     type: "select",
@@ -250,16 +259,13 @@ export default {
             },
         };
     },
-    components: {
-    },
+    components: {},
     computed: {},
     watch: {},
     created() {
         this.getHomeAricle();
     },
-    mounted() {
-    
-    },
+    mounted() {},
     methods: {
         change() {
             console.log(this.headerForm);
@@ -301,7 +307,15 @@ export default {
             }
         },
         confirm() {
-            console.log(this.form);
+            this.$refs.form
+                .submitForm()
+                .then((val) => {
+                    console.log(val);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+
             // if (this.confirmMode == "add") {
             //     addHomeAricle(this.form).then((res) => {
             //         this.dialogFormVisible = false;
