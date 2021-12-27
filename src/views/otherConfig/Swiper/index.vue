@@ -58,13 +58,13 @@
             :destroy-on-close="true"
             :close-on-click-modal="false"
         >
-            <F-form
+            <FForm
                 :rowHeader="formHeader"
                 formLabelWidth="70px"
                 v-model:headerForm="form"
-                ref="form"
+                ref="FFormRef"
             >
-            </F-form>
+            </FForm>
             <template #footer class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
                 <el-button type="primary" @click="confirm">确 定</el-button>
@@ -73,273 +73,273 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import {
     addHomeAricle, //新增
     homeAricleDelete, //删除
     homeAricleModify, //修改
     getHomeAricle, //分页查询
 } from "@/api/other";
+import { ref, reactive, onMounted } from "vue";
+import { ElMessage } from "element-plus";
 
-export default {
-    name: "Swiper",
-    data() {
-        return {
-            tableData: [],
-            tableDataLoading: true,
-            tableHeader: [
-                {
-                    value: "title",
-                    label: "标题",
-                },
-                {
-                    columnType: "image",
-                    value: "cover",
-                    label: "封面",
-                },
-                {
-                    value: "content",
-                    columnType: "render",
-                    label: "内容",
-                    render: (h, params) => {
-                        return h(
-                            "span",
-                            params.row.industrialParkStatus ? "显示" : "不显示"
-                        );
-                    },
-                },
-            ],
-            formHeader: [
-                {
-                    placeholder: "请输入标题",
-                    value: "title",
-                    label: "标题",
-                },
-                {
-                    placeholder: "请输入标题",
-                    value: "id",
-                    label: "标题",
-                },
-                {
-                    type: "image",
-                    value: "cover",
-                    label: "封面",
-                },
-                {
-                    type: "video",
-                    value: "createTime",
-                    label: "封面s",
-                },
-                {
-                    type: "switch",
-                    placeholder: "请输入内容",
-                    value: "content",
-                    label: "内容",
-                },
-                {
-                    type: "datetimerange",
-                    placeholder: ["开始", "结束"],
-                    startValue: "startTime",
-                    endValue: "endTime",
-                    label: "创建时间",
-                },
-                {
-                    type: "datetime",
-                    placeholder: "开始",
-                    value: "makeDate1",
-                    label: "创建时间",
-                },
-                {
-                    type: "date",
-                    placeholder: "开始",
-                    value: "makeDate2",
-                    label: "创建时间",
-                },
-                {
-                    type: "select",
-                    placeholder: "请选择状态",
-                    value: "id",
-                    label: "状态",
-                    option: [
-                        {
-                            value: "1",
-                            label: "待处理",
-                        },
-                        {
-                            value: "2",
-                            label: "已处理",
-                        },
-                    ],
-                },
-                {
-                    type: "tinymce",
-                    placeholder: "请输入内容",
-                    value: "content",
-                    label: "内容",
-                },
-            ],
-            form: {
-                title: "",
-                cover: "",
-                content: "",
-                createTime: "",
-                id: "",
-            },
-            headerHeader: [
-                {
-                    placeholder: "请输入电话",
-                    value: "mobile",
-                    label: "电话",
-                },
-                {
-                    type: "select",
-                    placeholder: "请选择状态",
-                    value: "status",
-                    label: "状态",
-                    option: [
-                        {
-                            value: "-1",
-                            label: "已取消",
-                        },
-                        {
-                            value: "1",
-                            label: "待支付",
-                        },
-                        {
-                            value: "2",
-                            label: "待使用",
-                        },
-                        {
-                            value: "3",
-                            label: "已完成",
-                        },
-                        {
-                            value: "4",
-                            label: "已过期",
-                        },
-                    ],
-                },
-                {
-                    type: "datetimerange",
-                    placeholder: ["开始", "结束"],
-                    startValue: "startTime",
-                    endValue: "endTime",
-                    label: "创建时间",
-                },
-                {
-                    type: "datetime",
-                    placeholder: "开始",
-                    value: "makeDate1",
-                    label: "111创建时间",
-                },
-                {
-                    type: "date",
-                    placeholder: "开始",
-                    value: "makeDate2",
-                    label: "222创建时间",
-                },
-            ],
-            headerForm: {
-                writeOffNo: "",
-                status: "",
-                hotelName: "",
-                reserveName: "",
-                mobile: "",
-                makeDate1: "",
-                makeDate2: "",
-                startTime: "",
-                endTime: "",
-            },
-            dialogFormVisible: false,
-            confirmMode: "",
-            page: {
-                total: 0,
-                page: 1,
-                pageSize: 10,
-            },
-        };
+let tableData = reactive([]);
+let tableDataLoading = ref(true);
+let dialogFormVisible = ref(false);
+let confirmMode = ref("");
+let tableHeader = reactive([
+    {
+        value: "title",
+        label: "标题",
     },
-    components: {},
-    computed: {},
-    watch: {},
-    created() {
-        this.getHomeAricle();
+    {
+        columnType: "image",
+        value: "cover",
+        label: "封面",
     },
-    mounted() {},
-    methods: {
-        change() {
-            console.log(this.headerForm);
-            this.page.page = 1;
-            // this.getHomeAricle();
+    {
+        value: "content",
+        columnType: "render",
+        label: "内容",
+        render: (h, params) => {
+            return h(
+                "span",
+                params.row.industrialParkStatus ? "显示" : "不显示"
+            );
         },
-        getHomeAricle() {
-            let data = {
-                current: this.page.page,
-                size: this.page.pageSize,
-                ...this.headerForm,
-            };
-            getHomeAricle(data).then((res) => {
-                this.tableData = res.records;
-                this.page.total = res.total;
-                this.tableDataLoading = false;
+    },
+]);
+let formHeader = reactive([
+    {
+        placeholder: "请输入标题",
+        value: "title",
+        label: "标题",
+        rules: [
+            {
+                validator: (rule, value, callback) => {
+                    value == "" ? callback("这里填出错信息") : callback();
+                },
+            },
+        ],
+    },
+    {
+        placeholder: "请输入标题",
+        value: "id",
+        label: "标题",
+    },
+    {
+        type: "image",
+        value: "cover",
+        label: "封面",
+    },
+    {
+        type: "video",
+        value: "createTime",
+        label: "封面s",
+    },
+    {
+        type: "switch",
+        placeholder: "请输入内容",
+        value: "content",
+        label: "内容",
+    },
+    {
+        type: "datetimerange",
+        placeholder: ["开始", "结束"],
+        startValue: "startTime",
+        endValue: "endTime",
+        label: "创建时间",
+    },
+    {
+        type: "datetime",
+        placeholder: "开始",
+        value: "makeDate1",
+        label: "创建时间",
+    },
+    {
+        type: "date",
+        placeholder: "开始",
+        value: "makeDate2",
+        label: "创建时间",
+    },
+    {
+        type: "select",
+        placeholder: "请选择状态",
+        value: "id",
+        label: "状态",
+        option: [
+            {
+                value: "1",
+                label: "待处理",
+            },
+            {
+                value: "2",
+                label: "已处理",
+            },
+        ],
+    },
+    {
+        type: "tinymce",
+        placeholder: "请输入内容",
+        value: "content",
+        label: "内容",
+    },
+]);
+let form = reactive({
+    title: "",
+    cover: "",
+    content: "",
+    createTime: "",
+    id: "",
+});
+let headerHeader = reactive([
+    {
+        placeholder: "请输入电话",
+        value: "mobile",
+        label: "电话",
+    },
+    {
+        type: "select",
+        placeholder: "请选择状态",
+        value: "status",
+        label: "状态",
+        option: [
+            {
+                value: "-1",
+                label: "已取消",
+            },
+            {
+                value: "1",
+                label: "待支付",
+            },
+            {
+                value: "2",
+                label: "待使用",
+            },
+            {
+                value: "3",
+                label: "已完成",
+            },
+            {
+                value: "4",
+                label: "已过期",
+            },
+        ],
+    },
+    {
+        type: "datetimerange",
+        placeholder: ["开始", "结束"],
+        startValue: "startTime",
+        endValue: "endTime",
+        label: "创建时间",
+    },
+    {
+        type: "datetime",
+        placeholder: "开始",
+        value: "makeDate1",
+        label: "111创建时间",
+    },
+    {
+        type: "date",
+        placeholder: "开始",
+        value: "makeDate2",
+        label: "222创建时间",
+    },
+]);
+let headerForm = reactive({
+    writeOffNo: "",
+    status: "",
+    hotelName: "",
+    reserveName: "",
+    mobile: "",
+    makeDate1: "",
+    makeDate2: "",
+    startTime: "",
+    endTime: "",
+});
+let page = reactive({
+    total: 0,
+    page: 1,
+    pageSize: 10,
+});
+const FFormRef = ref(null);
+
+let change = () => {
+    page.page = 1;
+    getHomeAricles();
+};
+let getHomeAricles = () => {
+    let data = {
+        current: page.page,
+        size: page.pageSize,
+        ...headerForm,
+    };
+    getHomeAricle(data).then((res) => {
+        tableData.length = 0;
+        tableData.push(...res.records);
+        page.total = res.total;
+        tableDataLoading.value = false;
+    });
+};
+getHomeAricles();
+
+let handleEdit = (row) => {
+    for (let item in form) {
+        form[item] = row[item];
+    }
+    confirmMode.value = "edit";
+    dialogFormVisible.value = true;
+};
+let handleDelete = (row) => {
+    homeAricleDelete(row.id).then((res) => {
+        ElMessage({
+            message: "删除成功",
+            type: "success",
+        });
+        getHomeAricles();
+    });
+};
+
+let dialogClose = () => {
+    getHomeAricles();
+    for (let item in form) {
+        form[item] = "";
+    }
+};
+
+let confirm = () => {
+    FFormRef.value
+        .submitForm()
+        .then((val) => {
+            console.log(val);
+            console.log(form);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
+    if (confirmMode == "add") {
+        addHomeAricle(form).then((res) => {
+            dialogFormVisible = false;
+            ElMessage({
+                message: "创建成功",
+                type: "success",
             });
-        },
-        handleEdit(row) {
-            for (let item in this.form) {
-                this.form[item] = row[item];
-            }
-            this.confirmMode = "edit";
-            this.dialogFormVisible = true;
-        },
-        handleDelete(row) {
-            homeAricleDelete(row.id).then((res) => {
-                this.$message({
-                    message: "删除成功",
-                    type: "success",
-                });
-                this.getHomeAricle();
+        });
+    } else if (confirmMode == "edit") {
+        homeAricleModify(form.id, form).then((res) => {
+            dialogFormVisible = false;
+            ElMessage({
+                message: "修改成功",
+                type: "success",
             });
-        },
-        dialogClose() {
-            this.getHomeAricle();
-            for (let item in this.form) {
-                this.form[item] = "";
-            }
-        },
-        confirm() {
-            this.$refs.form
-                .submitForm()
-                .then((val) => {
-                    console.log(val);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+        });
+    }
+};
 
-            // if (this.confirmMode == "add") {
-            //     addHomeAricle(this.form).then((res) => {
-            //         this.dialogFormVisible = false;
-            //         this.$message({
-            //             message: "创建成功",
-            //             type: "success",
-            //         });
-            //     });
-            // } else if (this.confirmMode == "edit") {
-            //     homeAricleModify(this.form.id, this.form).then((res) => {
-            //         this.dialogFormVisible = false;
-            //         this.$message({
-            //             message: "修改成功",
-            //             type: "success",
-            //         });
-            //     });
-            // }
-        },
-
-        currentChange(v) {
-            this.page.page = v;
-            this.getHomeAricle();
-        },
-    },
+let currentChange = (v) => {
+    page.page = v;
+    getHomeAricles();
 };
 </script>
 

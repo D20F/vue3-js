@@ -80,4 +80,5 @@ export const componentList = [
 
     { title: 'otherConfig', component: Layout },
     { title: 'Swiper', component: () => import('@/views/otherConfig/Swiper/index') },
+    { title: 'investmentAdvisory', component: () => import('@/views/otherConfig/investmentAdvisory/index') },
 ]

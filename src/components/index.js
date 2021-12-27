@@ -7,7 +7,7 @@ import optionSearch from './optionSearch'
 export default (Vue) => {
     Vue.component("openTinymce", openTinymce);
     Vue.component("FTable", FTable);
-    Vue.component("F-form", FForm);
+    Vue.component("FForm", FForm);
     Vue.component("optionSearch", optionSearch);
 }
 
