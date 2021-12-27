@@ -82,7 +82,7 @@ import {
 } from "@/api/other";
 import { ref, reactive, onMounted } from "vue";
 import { ElMessage } from "element-plus";
-
+import { regular_phone } from "@/utils/formRules/index";
 let tableData = reactive([]);
 let tableDataLoading = ref(true);
 let dialogFormVisible = ref(false);
@@ -116,9 +116,7 @@ let formHeader = reactive([
         label: "标题",
         rules: [
             {
-                validator: (rule, value, callback) => {
-                    value == "" ? callback("这里填出错信息") : callback();
-                },
+                validator: regular_phone,
             },
         ],
     },
@@ -318,23 +316,23 @@ let confirm = () => {
             console.log(err);
         });
 
-    if (confirmMode == "add") {
-        addHomeAricle(form).then((res) => {
-            dialogFormVisible = false;
-            ElMessage({
-                message: "创建成功",
-                type: "success",
-            });
-        });
-    } else if (confirmMode == "edit") {
-        homeAricleModify(form.id, form).then((res) => {
-            dialogFormVisible = false;
-            ElMessage({
-                message: "修改成功",
-                type: "success",
-            });
-        });
-    }
+    // if (confirmMode == "add") {
+    //     addHomeAricle(form).then((res) => {
+    //         dialogFormVisible = false;
+    //         ElMessage({
+    //             message: "创建成功",
+    //             type: "success",
+    //         });
+    //     });
+    // } else if (confirmMode == "edit") {
+    //     homeAricleModify(form.id, form).then((res) => {
+    //         dialogFormVisible = false;
+    //         ElMessage({
+    //             message: "修改成功",
+    //             type: "success",
+    //         });
+    //     });
+    // }
 };
 
 let currentChange = (v) => {
