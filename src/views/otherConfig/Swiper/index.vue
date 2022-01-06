@@ -83,6 +83,7 @@ import {
 import { ref, reactive, onMounted } from "vue";
 import { ElMessage } from "element-plus";
 import { regular_phone } from "@/utils/formRules/index";
+
 let tableData = reactive([]);
 let tableDataLoading = ref(true);
 let dialogFormVisible = ref(false);
@@ -126,6 +127,35 @@ let formHeader = reactive([
         label: "标题",
     },
     {
+        type: "cascader",
+        value: "cascader",
+        placeholder: "请输入标题",
+        label: "标题",
+        props: {
+            lazy: true,
+            lazyLoad(node, resolve) {
+                const { level } = node;
+                setTimeout(() => {
+                    const nodes = Array.from({ length: level + 1 }).map(
+                        (item) => ({
+                            value: level + 1,
+                            label: `Option - ${level}`,
+                            leaf: level >= 1,  //子节点终止条件
+                        })
+                    );
+                    // console.log(nodes) node 这种形式的 [{value: 2, label: 'Option - 1', leaf: true}]
+                    resolve(nodes);
+                }, 1000);
+                // 返回的是数组形式的value 数组
+            },
+        },
+    },
+    {
+        type: "color",
+        value: "color",
+        label: "颜色",
+    },
+    {
         type: "image",
         value: "cover",
         label: "封面",
@@ -138,7 +168,7 @@ let formHeader = reactive([
     {
         type: "switch",
         placeholder: "请输入内容",
-        value: "content",
+        value: "switch",
         label: "内容",
     },
     {
@@ -177,6 +207,31 @@ let formHeader = reactive([
         ],
     },
     {
+        type: "select",
+        placeholder: "请选择状态",
+        value: "multiple",
+        label: "状态",
+        multiple: true,
+        option: [
+            {
+                value: "1",
+                label: "待处理",
+            },
+            {
+                value: "2",
+                label: "已处理",
+            },
+            {
+                value: "3",
+                label: "已处理",
+            },
+            {
+                value: "4",
+                label: "已处理",
+            },
+        ],
+    },
+    {
         type: "tinymce",
         placeholder: "请输入内容",
         value: "content",
@@ -187,8 +242,12 @@ let form = reactive({
     title: "",
     cover: "",
     content: "",
+    multiple: "",
     createTime: "",
+    switch: false,
+    cascader: "",
     id: "",
+    color: "",
 });
 let headerHeader = reactive([
     {

@@ -13,6 +13,7 @@
                     v-if="item.type == 'select'"
                     v-model="formList[item.value]"
                     :placeholder="item.placeholder"
+                    :multiple="item.multiple"
                 >
                     <el-option
                         v-for="(i, indexs) in item.option"
@@ -70,6 +71,16 @@
                     :limit="item.limit || 1"
                     v-model="formList[item.value]"
                     :autoUpload="item.autoUpload || true"
+                />
+                <el-color-picker
+                    v-else-if="item.type == 'color'"
+                    v-model="formList[item.value]"
+                />
+                <el-cascader
+                    v-else-if="item.type == 'cascader'"
+                    :props="item.props"
+                    v-model="formList[item.value]"
+                    :placeholder="item.placeholder"
                 />
 
                 <el-input
