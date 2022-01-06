@@ -53,8 +53,11 @@
                 <el-switch
                     v-else-if="item.type == 'switch'"
                     v-model="formList[item.value]"
+                    inline-prompt
                     active-color="#13ce66"
                     inactive-color="#ff4949"
+                    :active-text="item.activeText"
+                    :inactive-text="item.inactiveText"
                 >
                 </el-switch>
 
@@ -83,6 +86,12 @@
                     v-model="formList[item.value]"
                     :placeholder="item.placeholder"
                     style="width: 100%"
+                />
+                <el-rate
+                    v-else-if="item.type == 'rate'"
+                    v-model="formList[item.value]"
+                    style="margin-top: 10px"
+                    allow-half
                 />
 
                 <el-input

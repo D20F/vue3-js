@@ -123,7 +123,7 @@ let formHeader = reactive([
     },
     {
         placeholder: "请输入标题",
-        value: "id",
+        value: "rate",
         label: "标题",
     },
     {
@@ -167,9 +167,14 @@ let formHeader = reactive([
         },
     },
     {
+        type: "rate",
+        value: "rate",
+        label: "颜色",
+    },
+    {
         type: "color",
         value: "color",
-        label: "颜色",
+        label: "颜色sss",
     },
     {
         type: "image",
@@ -186,6 +191,8 @@ let formHeader = reactive([
         placeholder: "请输入内容",
         value: "switch",
         label: "内容",
+        activeText: "是",
+        inactiveText: "否",
     },
     {
         type: "datetimerange",
@@ -260,6 +267,7 @@ let form = reactive({
     content: "",
     multiple: "",
     createTime: "",
+    rate: 0,
     switch: false,
     cascader: "",
     id: "",
