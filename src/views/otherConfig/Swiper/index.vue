@@ -131,22 +131,38 @@ let formHeader = reactive([
         value: "cascader",
         placeholder: "请输入标题",
         label: "标题",
+        options: [
+            {
+                value: "guide",
+                label: "Guide",
+                children: [
+                    {
+                        value: "disciplines",
+                        label: "Disciplines",
+                    },
+                ],
+            },
+        ],
         props: {
             lazy: true,
             lazyLoad(node, resolve) {
-                const { level } = node;
+                // level 当前层级 value 当前值
+                const { level, value } = node;
                 setTimeout(() => {
-                    const nodes = Array.from({ length: level + 1 }).map(
-                        (item) => ({
+                    let nodes = [
+                        {
                             value: level + 1,
-                            label: `Option - ${level}`,
-                            leaf: level >= 1,  //子节点终止条件
-                        })
-                    );
-                    // console.log(nodes) node 这种形式的 [{value: 2, label: 'Option - 1', leaf: true}]
+                            label: "Option - " + level + 1,
+                            leaf: false,
+                        },
+                        {
+                            value: level + 2,
+                            label: "Option - " + level + 2,
+                            leaf: true,
+                        },
+                    ];
                     resolve(nodes);
                 }, 1000);
-                // 返回的是数组形式的value 数组
             },
         },
     },

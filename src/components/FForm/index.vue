@@ -79,8 +79,10 @@
                 <el-cascader
                     v-else-if="item.type == 'cascader'"
                     :props="item.props"
+                    :options="item.options"
                     v-model="formList[item.value]"
                     :placeholder="item.placeholder"
+                    style="width: 100%"
                 />
 
                 <el-input
