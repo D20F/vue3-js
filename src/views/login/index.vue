@@ -40,7 +40,7 @@
                     name="password"
                     tabindex="2"
                     auto-complete="on"
-                    @keyup.enter.native="handleLogin"
+                    @keyup.enter="handleLogin"
                 />
                 <span class="show-pwd" @click="showPwd">
                     <svg-icon
@@ -55,7 +55,7 @@
                 :loading="loading"
                 type="primary"
                 style="width: 100%; margin-bottom: 30px"
-                @click.native.prevent="handleLogin"
+                @click.prevent="handleLogin"
                 >登录</el-button
             >
         </el-form>
