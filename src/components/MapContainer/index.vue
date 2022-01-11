@@ -1,12 +1,21 @@
 <template>
+    <div class="operate">
+        <el-input v-model="input" id="input" style="width: 40%" />
+
+        <div class="button">
+            <el-button @click="marker.switch = true">标点</el-button>
+            <el-button @click="marker.switch = false">保存标点</el-button>
+            <el-button @click="openPolygon">开始绘制</el-button>
+            <el-button @click="closePolygon">结束绘制并保存</el-button>
+            <el-button @click="clearMap">清空</el-button>
+        </div>
+    </div>
     <div id="container"></div>
-    <!-- <el-input v-model="input" id="tipinput" /> -->
-    <input id="input" />
 </template>
 
 <script>
 import AMapLoader from "@amap/amap-jsapi-loader";
-
+ 
 export default {
     name: "MapContainer",
     data() {
@@ -15,7 +24,17 @@ export default {
             map: null,
             longitude: 114.315009,
             latitude: 30.588419,
+            zoom: 13,
             mouseTool: "",
+            marker: {
+                list: [],
+                switch: false,
+                limit: 1,
+            },
+            polygon: {
+                list: [],
+                limit: 1,
+            },
         };
     },
     components: {},
@@ -28,29 +47,23 @@ export default {
         // 自行添加地图控件
 
         this.initMap();
-
-        // 标点;
-        // 保存标点;
-        // 开始绘制;
-        // 清空当前绘制;
-        // 结束绘制并保存;
     },
     methods: {
         initMap() {
             AMapLoader.load({
                 key: "af03e24afc46e68e83a70eb8062edf31", // 申请好的Web端开发者Key，首次调用 load 时必填
-                version: "1.4.4", //'1.4.4' 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+                version: "2.0",
                 plugins: [
                     "AMap.MouseTool",
-                    // "AMap.PlaceSearch",
-                    // "AMap.AutoComplete",
+                    "AMap.PlaceSearch",
+                    "AMap.AutoComplete  ",
                 ],
             })
                 .then((AMap) => {
                     this.map = new AMap.Map("container", {
                         // viewMode: "3D", //是否为3D地图模式
                         resizeEnable: true,
-                        zoom: 13, //初始化地图级别
+                        zoom: this.zoom, //初始化地图级别
                         center: [this.longitude, this.latitude], //初始化地图中心点位置
                     });
                     this.map.on("complete", () => {
@@ -59,7 +72,8 @@ export default {
                     });
                     this.map.on("click", (ev) => {
                         console.log(ev);
-                        console.log([ev.lnglat.R, ev.lnglat.Q]);
+                        console.log(ev.lnglat.lng, ev.lnglat.lat);
+                        this.addMarker(ev.lnglat.lng, ev.lnglat.lat);
                     });
                 })
                 .catch((e) => {
@@ -73,51 +87,30 @@ export default {
         setZoom(v) {
             this.map.setZoom(v);
         },
-        addMarker(v) {
-            let marker = new AMap.Marker({
-                icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
-                position: v,
-            });
-            this.map.add(marker);
+        addMarker(lng, lat) {
+            if (
+                this.marker.switch &&
+                this.marker.list.length < this.marker.limit
+            ) {
+                let marker = new AMap.Marker({
+                    icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                    position: [lng, lat],
+                });
+                this.map.add(marker);
+                this.marker.list.push([lng, lat]);
+            }
         },
         clearMap() {
             this.map.clearMap();
         },
         initSearch() {
-            // 看看 这两个怎么加载和配合
-            window.AMap.plugin("AMap.PlaceSearch",  ()=> {
-                var placeSearch = new window.AMap.PlaceSearch({
-                    map: this.map,
-                });
-                // autocomplete.on("select", function (e) {
-                //     placeSearch.search(e.poi.name);
-                //     placeSearch.setCity(e.poi.adcode);
-                // });
-                // var placeSearch = new window.AMap.PlaceSearch();
-                placeSearch.search("江滩", function (status, result) {
-                    console.log(result);
-                });
+            let autoOptions = { input: "input" };
+            let autocomplete = new AMap.AutoComplete(autoOptions);
+            let placeSearch = new AMap.PlaceSearch({ map: this.map });
+            autocomplete.on("select", (e) => {
+                placeSearch.search(e.poi.name);
+                placeSearch.setCity(e.poi.adcode);
             });
-            window.AMap.plugin("AMap.AutoComplete",  ()=> {
-                // var autoOptions = {
-                //     input: "input",
-                // };
-                // var autocomplete = new window.AMap.AutoComplete(
-                //     autoOptions
-                // );
-                var placeSearch = new window.AMap.PlaceSearch({
-                    map: this.map,
-                });
-                // autocomplete.on("select", function (e) {
-                //     placeSearch.search(e.poi.name);
-                //     placeSearch.setCity(e.poi.adcode);
-                // });
-                // var placeSearch = new window.AMap.PlaceSearch();
-                placeSearch.search("江滩", function (status, result) {
-                    console.log(result);
-                });
-            });
-
         },
         initMouseTool() {
             this.mouseTool = new AMap.MouseTool(this.map);
@@ -127,13 +120,29 @@ export default {
             // this.mouseTool.polygon();
             // 关闭当前鼠标操作。参数arg设为true时，鼠标操作关闭的同时清除地图上绘制的所有覆盖物对象；设为false时，保留所绘制的覆盖物对象。默认为false
             // this.mouseTool.close(true);
-            this.mouseTool.on("draw", function (e) {
+            this.mouseTool.on("draw", (e) => {
                 // console.log(e)
                 // 点的位置
                 // console.log(e.obj.w.position)
                 // 矩形的位置
                 // console.log(e.obj.getPath());
+                if (this.polygon.list.length < this.polygon.limit) {
+                    // console.log(e);
+                    console.log(e.obj.getPath());
+                    this.polygon.list.push(e.obj.getPath());
+                }
             });
+        },
+        openPolygon() {
+            this.mouseTool.polygon({
+                fillOpacity: 0,
+                strokeColor: "#F90B0B",
+            });
+        },
+        closePolygon() {
+            this.mouseTool.close(false);
+            console.log(this.marker)
+            console.log(this.polygon)
         },
     },
     beforeUnmount() {
@@ -148,5 +157,16 @@ export default {
     margin: 0px;
     width: 100%;
     height: 800px;
+}
+.operate {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 </style>
