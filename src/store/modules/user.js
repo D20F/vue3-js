@@ -73,7 +73,7 @@ const actions = {
                     return reject('验证失败，请重新登录')
                 }
                 console.log('getInfo', res);
-                
+
                 // 按钮权限控制 
 
                 let btn = [];
@@ -91,40 +91,45 @@ const actions = {
                     }
                 }
 
-                // 只支持一层嵌套 2层需修改
+
+                let filter = (data) => {
+                    let arr = [];
+                    for (let item of data) {
+                        let obj = {};
+                        obj.path = item.menuPath;
+                        obj.name = item.menuPath;
+                        obj.meta = {
+                            title: item.name,
+                            icon: item.icon,
+                        };
+                        obj.component = searchIndex(item.menuPath);
+                        if (item.children) {
+                            obj.children = [];
+                            obj.children = filter(item.children);
+                        }
+                        arr.push(obj);
+                    }
+                    return arr;
+                };
                 let routerArr = [];
-                for (const item of res.permissionVOList) {
-                    let obj = {}
+                for (let item of res.permissionVOList) {
+                    let obj = {};
                     obj.path = item.menuPath;
-                    obj.name = item.menuPath.split('/')[1];
+                    obj.name = item.menuPath.split("/")[1];
                     obj.meta = {
                         title: item.name,
-                        icon: item.icon
+                        icon: item.icon,
                     };
-                    obj.component = searchIndex(obj.name);
+                    obj.component = searchIndex(item.menuPath.split("/")[1]);
                     obj.redirect = item.menuPath + '/' + item.children[0].menuPath;
-                    let arr = []
-                    for (const i of item.children) {
-                        let c = {}
-                        c.path = i.menuPath;
-                        c.name = i.menuPath;
-                        c.meta = {
-                            title: i.name,
-                            icon: i.icon
-                        };
-                        c.component = searchIndex(c.name);
-
-
-                        // 最好不要做成侧边栏 不显示的页面 做成页面内组件就好
-                        if(c.name == 'goods/specifications'){
-                            c.hidden = true;
-                        }
-                        arr.push(c);
+                    if (item.children) {
+                        obj.children = [];
+                        obj.children = filter(item.children);
                     }
-                    obj.children = arr;
-                    routerArr.push(obj)
+                    routerArr.push(obj);
                 }
-      
+
+
                 // root 账户 
                 // commit('CHANGE_ROUTER', root)
                 // 正常权限
@@ -145,7 +150,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             if (state.btnGroup.indexOf(data) == -1) {
                 ElMessage.error('没有此按钮权限')
-                return 
+                return
             } else {
                 return resolve()
             }

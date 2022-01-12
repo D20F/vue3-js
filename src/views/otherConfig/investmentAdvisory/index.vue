@@ -1,6 +1,6 @@
 <template>
     <div class="userGroup">
-        <!-- <optionSearch
+        <optionSearch
             :rowHeader="headerHeader"
             v-model:headerForm="headerForm"
             @change="change"
@@ -69,8 +69,7 @@
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
                 <el-button type="primary" @click="confirm">确 定</el-button>
             </template>
-        </el-dialog> -->
-        <MapContainer />
+        </el-dialog>
     </div>
 </template>
 
@@ -81,8 +80,6 @@ import {
     homeAricleModify, //修改
     getHomeAricle, //分页查询
 } from "@/api/other";
-import MapContainer from "@/components/MapContainer/index.vue";
-
 export default {
     name: "investmentAdvisory",
     data() {
@@ -261,7 +258,7 @@ export default {
             },
         };
     },
-    components: { MapContainer },
+    components: {},
     computed: {},
     watch: {},
     created() {
