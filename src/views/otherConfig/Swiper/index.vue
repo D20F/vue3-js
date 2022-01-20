@@ -40,8 +40,9 @@
         <el-pagination
             class="pagination"
             background
-            layout="total, prev, pager, next"
+            layout="total, sizes, prev, pager, next, jumper"
             :total="page.total"
+            :page-sizes="[page.pageSize]"
             :page-size="page.pageSize"
             v-model:current-page="page.page"
             @current-change="currentChange"
