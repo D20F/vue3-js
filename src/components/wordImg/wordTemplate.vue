@@ -133,7 +133,7 @@ export default {
 
 <style lang="scss" scoped>
 // 初号= 42pt；小初号= 36pt；一号= 26pt；二号= 22pt；小二号= 18pt；三号= 16pt；四号= 14pt；
-// 小四号= 12pt；五号= 10.5pt；小五号= 9pt；六号= 7.5pt；七号= 5.5pt。
+// 小四号= 12pt；五号= 10.5pt；小五号= 9pt；六号= 7.5pt；七号= 5.5pt
 // 2.08 1pt
 
 .box {

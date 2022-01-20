@@ -59,12 +59,12 @@ export default {
         },
         async open() {
             let dom = document.querySelector("#sss");
-            let start = new Date().getTime(); //起始时间
+            let start = new Date().getTime(); 
             let length = 100;
             for (let i = 0; i < length; i++) {
                 await this.toPng(dom,i);
             }
-            let end = new Date().getTime(); //接受时间
+            let end = new Date().getTime(); 
             console.log(end - start + "ms");
         },
         async toPng(dom,i) {
