@@ -142,6 +142,15 @@ export default {
             // 不使用submit
             // this.$refs.upload.submit();
         },
+        detect(list) {
+            let state = true;
+            for (const item of list) {
+                if (item.status !== "success") {
+                    state = false;
+                }
+            }
+            return state;
+        },
         onChange(file, fileList) {
             // console.log(fileList);
             // console.log(this.uploadList);

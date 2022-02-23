@@ -1,6 +1,6 @@
 <template>
     <el-date-picker
-        v-model="value"
+        v-model="modelValue"
         :placeholder="list.placeholder"
         :type="type"
         @change="change"
@@ -20,14 +20,19 @@ export default {
         },
         type: {
             type: String,
-            default: 'datetime',
+            default: "datetime",
+        },
+        modelValue: {
+            type: [String, Object],
+            default: "",
         },
     },
     computed: {},
     data() {
-        return {
-            value: [],
-        };
+        return {};
+    },
+    created() {
+        this.$emit("update:modelValue", new Date(this.modelValue));
     },
     methods: {
         change(data) {
