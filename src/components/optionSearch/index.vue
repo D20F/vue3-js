@@ -9,7 +9,7 @@
             <el-select
                 v-if="item.type == 'select'"
                 v-model="formList[item.value]"
-                :placeholder="item.placeholder"
+                :placeholder="item.placeholder || '请选择'"
             >
                 <el-option
                     v-for="(i, indexs) in item.option"
@@ -18,6 +18,15 @@
                     :value="i.value"
                 ></el-option>
             </el-select>
+
+            <el-cascader
+                v-else-if="item.type == 'cascader'"
+                v-model="formList[item.value]"
+                :options="item.option"
+                clearable 
+                :show-all-levels="false"
+                :placeholder="item.placeholder || '请选择'"
+            />
 
             <datePicker
                 v-else-if="item.type == 'date'"

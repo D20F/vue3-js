@@ -5,6 +5,7 @@
             v-loading="tableDataLoading"
             style="width: 100%"
             :fit="true"
+            border
         >
             <el-table-column
                 v-for="(item, index) in rowHeader"
@@ -51,7 +52,7 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" width="150px">
+            <el-table-column label="操作" v-if="operateShow">
                 <template #default="scope">
                     <slot name="operate" :scope="scope"> </slot>
                 </template>
@@ -112,6 +113,11 @@ export default {
             type: Boolean,
             default: true,
         },
+        operateShow: {
+            type: Boolean,
+            default: true,
+        },
+
     },
     computed: {},
     data() {

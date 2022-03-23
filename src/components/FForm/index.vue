@@ -54,8 +54,8 @@
                     v-else-if="item.type == 'switch'"
                     v-model="formList[item.value]"
                     inline-prompt
-                    active-color="#13ce66"
-                    inactive-color="#ff4949"
+                    :active-color="item.activeColor || '#13ce66'"
+                    :inactive-color="item.inactiveColor || '#ff4949'"
                     :active-text="item.activeText"
                     :inactive-text="item.inactiveText"
                 >
@@ -72,6 +72,7 @@
                     v-else-if="item.type == 'video'"
                     ref="upload"
                     :limit="item.limit || 1"
+                    :uploadType="item.uploadType || 'lc'"
                     v-model="formList[item.value]"
                     :autoUpload="item.autoUpload || true"
                 />
@@ -81,12 +82,14 @@
                 />
                 <el-cascader
                     v-else-if="item.type == 'cascader'"
-                    :props="item.props"
-                    :options="item.options"
                     v-model="formList[item.value]"
-                    :placeholder="item.placeholder"
+                    :options="item.options"
+                    :show-all-levels="false"
+                    :placeholder="item.placeholder || '请选择'"
+                    :props="item.props"
                     style="width: 100%"
                 />
+
                 <el-rate
                     v-else-if="item.type == 'rate'"
                     v-model="formList[item.value]"

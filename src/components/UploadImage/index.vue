@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { uploadImage } from "@/api/other";
+import { uploadFile } from "@/api/other";
 import { ElLoading } from "element-plus";
 
 export default {
@@ -125,18 +125,32 @@ export default {
                     //     this.$message.error("只能上传图片大小小于2M");
                     //     return;
                     // }
-                    form.append("images", item.raw);
+                    form.append("file", item.raw);
                 }
             }
 
-            uploadImage(form).then((res) => {
+            if (this.detect(this.uploadList)) {
                 this.$nextTick(() => {
                     loadingInstance.close();
                 });
-                this.$emit("uploadSuccess", [...res, ...successList]);
+                this.$emit("uploadSuccess", successList);
                 this.limit == 1
-                    ? this.$emit("update:modelValue", res[0])
-                    : this.$emit("update:modelValue", [...res, ...successList]);
+                    ? this.$emit("update:modelValue", [])
+                    : this.$emit("update:modelValue", successList);
+                return;
+            }
+
+            uploadFile(form).then((res) => {
+                this.$nextTick(() => {
+                    loadingInstance.close();
+                });
+                this.$emit("uploadSuccess", [res.data, ...successList]);
+                this.limit == 1
+                    ? this.$emit("update:modelValue", res.data)
+                    : this.$emit("update:modelValue", [
+                          res.data,
+                          ...successList,
+                      ]);
             });
 
             // 不使用submit
