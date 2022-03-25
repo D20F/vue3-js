@@ -82,14 +82,22 @@ export default {
 };
 </script>
 
+<style>
+.el-overlay {
+    z-index: 1300 !important;
+}
+.tox-notifications-container {
+    display: none;
+}
+</style>
 <style scoped>
-/deep/ #mceu_44-body {
+/* /deep/ #mceu_44-body {
     white-space: pre-wrap !important;
 }
 /deep/ #mceu_46-body {
     white-space: pre-wrap !important;
-}
-/deep/ .mce-container,
+} */
+.tinymce-container /deep/ .mce-container,
 .mce-container *,
 .mce-widget,
 .mce-widget *,

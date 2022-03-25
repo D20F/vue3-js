@@ -8,7 +8,7 @@
         </optionSearch>
         <el-button
             type="primary"
-            v-permission="'cainvestmentAdvisory_add'"
+            v-permission="'carousel_add'"
             @click="
                 dialogFormVisible = true;
                 confirmMode = 'add';
@@ -24,12 +24,12 @@
             <template v-slot:operate="{ scope }">
                 <el-button
                     size="mini"
-                    v-permission="'cainvestmentAdvisory_edit'"
+                    v-permission="'carousel_add'"
                     @click="handleEdit(scope.row)"
                     >编辑</el-button
                 >
                 <el-button
-                    v-permission="'cainvestmentAdvisory_delete'"
+                    v-permission="'carousel_add'"
                     size="mini"
                     type="danger"
                     @click="handleDelete(scope.row)"
@@ -96,17 +96,6 @@ export default {
                     columnType: "image",
                     value: "cover",
                     label: "封面",
-                },
-                {
-                    value: "content",
-                    columnType: "render",
-                    label: "内容",
-                    render: (h, params) => {
-                        return h(
-                            "span",
-                            params.row.industrialParkStatus ? "显示" : "不显示"
-                        );
-                    },
                 },
             ],
             formHeader: [
@@ -268,7 +257,7 @@ export default {
     mounted() {},
     methods: {
         change() {
-            console.log(this.headerForm);
+            // console.log(this.headerForm);
             this.page.page = 1;
             // this.getHomeAricle();
         },

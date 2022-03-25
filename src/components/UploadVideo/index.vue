@@ -24,7 +24,7 @@
 import { uploadFile } from "@/api/other";
 import { ElLoading } from "element-plus";
 import axios from "axios";
-import * as qiniu from "qiniu-js";
+// import * as qiniu from "qiniu-js";
 
 export default {
     name: "uploadVideo",
