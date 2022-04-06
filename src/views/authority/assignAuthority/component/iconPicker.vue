@@ -3,10 +3,9 @@
     <el-popover
         placement="bottom-start"
         popper-class="pupop-select-icon"
-        transition="el-zoom-in-top"
         trigger="click"
-        v-model="popoverVisible"
-        :disabled="disabledSelected"
+        v-model:visible="popoverVisible"
+        width="400"
     >
         <el-scrollbar
             v-if="popoverVisible"
@@ -32,10 +31,9 @@
                     'mod-select-icon': 1,
                     'is-opened': popoverVisible,
                     'is-active': value,
-                    'is-disabled': disabledSelected,
                 }"
             >
-                <div class="icon-item">
+                <div class="icon-item" >
                     <i :class="value || 'el-icon-plus'"></i>
                 </div>
 
@@ -52,7 +50,6 @@ import icon from "./icon";
 
 export default {
     name: "SelectIcon",
-
     data() {
         return {
             // 弹出框显示状态
@@ -63,15 +60,12 @@ export default {
         };
     },
     props: {
-        disabled: Boolean,
-        // 接收绑定参数 - 图标类名
-    },
-    computed: {
-        disabledSelected() {
-            if (this.disabled) return true;
-            return this.$parent.form ? this.$parent.form.disabled : false;
+        modelValue: {
+            type: [String, Object],
+            default: "",
         },
     },
+    computed: {},
     methods: {
         // 是否为当前已选项
         isActive(item) {
@@ -79,13 +73,13 @@ export default {
         },
         // 选中图标
         onClickSelected(item) {
-            this.$emit("input", item);
+            this.$emit("update:modelValue", item);
             this.popoverVisible = false;
             this.value = item;
         },
         // 清空选项
         onClickClear() {
-            this.$emit("input", "");
+            this.$emit("update:modelValue", "");
             this.value = "";
         },
     },
