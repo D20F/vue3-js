@@ -19,6 +19,14 @@ export default {
                 return {};
             },
         },
+        startValue: {
+            type: [String, Object],
+            default: "",
+        },
+        endValue: {
+            type: [String, Object],
+            default: "",
+        },
     },
     computed: {},
     data() {
@@ -26,12 +34,20 @@ export default {
             value: [],
         };
     },
+    created() {},
+    beforeUpdate() {
+        if (!this.startValue) {
+            this.value = [];
+        }
+    },
     methods: {
         change(data) {
-            let startValue = this.parseTime(data[0]);
-            let endValue = this.parseTime(data[1]);
-            this.$emit("update:startValue", startValue);
-            this.$emit("update:endValue", endValue);
+            if (data) {
+                let startValue = this.parseTime(data[0]);
+                let endValue = this.parseTime(data[1]);
+                this.$emit("update:startValue", startValue);
+                this.$emit("update:endValue", endValue);
+            }
         },
         parseTime(time, cFormat) {
             if (arguments.length === 0 || !time) {

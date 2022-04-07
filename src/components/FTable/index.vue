@@ -52,7 +52,11 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column label="操作" v-if="operateShow">
+            <el-table-column
+                label="操作"
+                v-if="operateShow"
+                :width="operateWidth"
+            >
                 <template #default="scope">
                     <slot name="operate" :scope="scope"> </slot>
                 </template>
@@ -117,7 +121,10 @@ export default {
             type: Boolean,
             default: true,
         },
-
+        operateWidth: {
+            type: String,
+            default: "",
+        },
     },
     computed: {},
     data() {
