@@ -4,7 +4,7 @@
         placement="bottom-start"
         popper-class="pupop-select-icon"
         trigger="click"
-        v-model:visible="popoverVisible"
+        :visible="popoverVisible"
         width="400"
     >
         <el-scrollbar
@@ -21,7 +21,7 @@
                 :class="{ 'is-active': isActive(item) }"
                 @click="onClickSelected(item)"
             >
-                <i :class="item"></i>
+                <component :is="item" />
             </div>
         </el-scrollbar>
 
@@ -33,12 +33,13 @@
                     'is-active': value,
                 }"
             >
-                <div class="icon-item" >
-                    <i :class="value || 'el-icon-plus'"></i>
-                </div>
-
-                <div v-show="value" class="btn-clear">
-                    <i class="el-icon-close" @click.stop="onClickClear()"></i>
+                <div
+                    class="icon-item icon-plus"
+                    @click="popoverVisible = !popoverVisible"
+                >
+                    <el-icon>
+                        <component :is="value ? value : 'plus'" />
+                    </el-icon>
                 </div>
             </div>
         </template>
@@ -46,6 +47,7 @@
 </template>
 
 <script>
+import { fa } from "element-plus/lib/locale";
 import icon from "./icon";
 
 export default {
@@ -77,11 +79,6 @@ export default {
             this.popoverVisible = false;
             this.value = item;
         },
-        // 清空选项
-        onClickClear() {
-            this.$emit("update:modelValue", "");
-            this.value = "";
-        },
     },
 };
 </script>
@@ -93,6 +90,11 @@ export default {
 .hide-x {
     width: 400px;
     height: 400px;
+}
+.icon-plus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .mod-select-icon {
@@ -110,8 +112,10 @@ export default {
     $--color-info-light: mix($--color-white, $--color-info, 80%) !default;
     $--color-success-light: mix($--color-white, $--color-success, 80%) !default;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
-    display: inline-block;
     width: $size + 2px;
     height: $size + 2px;
     border: 1px dashed $--border-color-base;
@@ -131,10 +135,6 @@ export default {
     }
     &.is-disabled,
     &.is-disabled > .icon-item,
-    &.is-disabled > .btn-clear {
-        // @extend .z-not-allowed;
-        background-color: $--background-color-base;
-    }
     // 已选状态
     &.is-active {
         border-style: solid;
@@ -166,29 +166,6 @@ export default {
         font-weight: bold;
         color: $--color-info;
         cursor: inherit;
-    }
-
-    // 清空按钮
-    .btn-clear {
-        width: 0;
-        height: 0;
-        border-width: ($size / 2) 0 0 ($size / 2);
-        border-style: solid;
-        border-color: $--color-danger transparent transparent transparent;
-        position: absolute;
-        top: 0;
-        right: 0;
-        cursor: pointer;
-        > i.el-icon-close {
-            position: absolute;
-            top: -($size / 2);
-            right: 0;
-            color: $--color-white;
-            font-size: 0.7em;
-            &:hover {
-                color: darken($--color-white, 5%);
-            }
-        }
     }
 
     // 弹出内容

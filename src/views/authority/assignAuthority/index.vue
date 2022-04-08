@@ -3,10 +3,12 @@
         <div class="left">
             <div class="header">
                 <el-input
+                    size="large"
                     placeholder="输入关键字进行过滤"
                     v-model="filterText"
                 />
                 <el-button
+                    size="large"
                     v-permission="'rule_add'"
                     @click="open()"
                     type="primary"
@@ -24,11 +26,8 @@
                 @current-change="currentChange"
             >
                 <template #default="{ data }">
-                    <span class="custom-tree-node" >
-                        <i
-                            v-if="data.type == 2"
-                            class="el-icon-picture-outline-round"
-                        ></i>
+                    <span class="custom-tree-node">
+                        <el-icon v-if="data.type == 2"><avatar /></el-icon>
                         <i v-else-if="data.type == 1" :class="data.icon"></i>
                         <span>{{ data.name }}</span>
                         <span v-if="data.name == form.name">
@@ -59,6 +58,7 @@
             <el-form :model="form">
                 <el-form-item label="上级菜单" label-width="70px">
                     <el-input
+                        size="large"
                         :disabled="true"
                         v-model="form.supName"
                         autocomplete="off"
@@ -70,12 +70,17 @@
                     label-width="70px"
                 >
                     <el-input
+                        size="large"
                         v-model="form.menuPath"
                         autocomplete="off"
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="名称" label-width="70px">
-                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                    <el-input
+                        size="large"
+                        v-model="form.name"
+                        autocomplete="off"
+                    ></el-input>
                 </el-form-item>
 
                 <el-form-item
@@ -86,6 +91,7 @@
                     <div style="display: flex">
                         <iconPicker v-model="form.icon" />
                         <el-input
+                            size="large"
                             :disabled="false"
                             v-model="form.icon"
                             autocomplete="off"
@@ -98,6 +104,7 @@
                     label-width="70px"
                 >
                     <el-input
+                        size="large"
                         v-model="form.identify"
                         autocomplete="off"
                     ></el-input>
@@ -105,6 +112,7 @@
 
                 <el-form-item label="备注" label-width="70px">
                     <el-input
+                        size="large"
                         v-model="form.content"
                         autocomplete="off"
                     ></el-input>
@@ -112,6 +120,7 @@
             </el-form>
             <div class="dialog-footer">
                 <el-button
+                    size="large"
                     type="primary"
                     v-permission="'rule_edit'"
                     @click.stop="confirm()"
@@ -124,20 +133,31 @@
             <el-form :model="form">
                 <el-form-item label="上级菜单" label-width="70px">
                     <el-input
+                        size="large"
                         :disabled="true"
                         v-model="form.supName"
                         autocomplete="off"
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="名称" label-width="70px">
-                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                    <el-input
+                        size="large"
+                        v-model="form.name"
+                        autocomplete="off"
+                    ></el-input>
                 </el-form-item>
 
                 <el-form-item label="选择类型" label-width="70px">
-                    <el-button type="primary" @click="form.type = 1"
+                    <el-button
+                        size="large"
+                        type="primary"
+                        @click="form.type = 1"
                         >菜单</el-button
                     >
-                    <el-button type="success" @click="form.type = 2"
+                    <el-button
+                        size="large"
+                        type="success"
+                        @click="form.type = 2"
                         >按钮</el-button
                     >
                 </el-form-item>
@@ -147,6 +167,7 @@
                     label-width="70px"
                 >
                     <el-input
+                        size="large"
                         v-model="form.menuPath"
                         autocomplete="off"
                     ></el-input>
@@ -160,6 +181,7 @@
                     <div style="display: flex">
                         <iconPicker v-model="form.icon" />
                         <el-input
+                            size="large"
                             :disabled="false"
                             v-model="form.icon"
                             autocomplete="off"
@@ -172,6 +194,7 @@
                     label-width="70px"
                 >
                     <el-input
+                        size="large"
                         v-model="form.identify"
                         autocomplete="off"
                     ></el-input>
@@ -179,18 +202,23 @@
 
                 <el-form-item label="备注" label-width="70px">
                     <el-input
+                        size="large"
                         v-model="form.content"
                         autocomplete="off"
                     ></el-input>
                 </el-form-item>
             </el-form>
             <template #footer class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogConfirm"
+                <el-button size="large" @click="dialogFormVisible = false"
+                    >取 消</el-button
+                >
+                <el-button size="large" type="primary" @click="dialogConfirm"
                     >确 定</el-button
                 >
             </template>
         </el-dialog>
+
+        <el-icon><apple /></el-icon>
     </div>
 </template>
 

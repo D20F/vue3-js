@@ -3,12 +3,17 @@
         <el-form :inline="true" :model="headerForm" class="demo-form-inline">
             <el-form-item label="姓名">
                 <el-input
+                    size="large"
                     v-model="headerForm.name"
                     placeholder="姓名"
                 ></el-input>
             </el-form-item>
             <el-form-item label="用户组">
-                <el-select v-model="headerForm.grounp" placeholder="用户组">
+                <el-select
+                    size="large"
+                    v-model="headerForm.grounp"
+                    placeholder="用户组"
+                >
                     <el-option
                         v-for="(item, index) of grounp"
                         :key="index"
@@ -19,6 +24,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button
+                    size="large"
                     @click="
                         headerForm = {
                             name: '',
@@ -32,6 +38,7 @@
         </el-form>
 
         <el-button
+            size="large"
             type="primary"
             v-permission="'manager_add'"
             @click="dialogFormVisible = true"
@@ -108,6 +115,7 @@
             <el-form :model="form">
                 <el-form-item label="用户组" label-width="70px">
                     <el-select
+                        size="large"
                         @change="addSelect"
                         v-model="form.roleName"
                         placeholder="用户组"
@@ -122,12 +130,14 @@
                 </el-form-item>
                 <el-form-item label="账号" label-width="70px">
                     <el-input
+                        size="large"
                         v-model="form.username"
                         autocomplete="off"
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="密码" label-width="70px">
                     <el-input
+                        size="large"
                         type="password"
                         v-model="form.password"
                         autocomplete="off"
@@ -136,6 +146,7 @@
                 </el-form-item>
                 <el-form-item label="确认密码" label-width="70px">
                     <el-input
+                        size="large"
                         type="password"
                         v-model="form.passwords"
                         autocomplete="off"
@@ -143,12 +154,20 @@
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="姓名" label-width="70px">
-                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                    <el-input
+                        size="large"
+                        v-model="form.name"
+                        autocomplete="off"
+                    ></el-input>
                 </el-form-item>
             </el-form>
             <template #footer class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="confirm">确 定</el-button>
+                <el-button size="large" @click="dialogFormVisible = false"
+                    >取 消</el-button
+                >
+                <el-button size="large" type="primary" @click="confirm"
+                    >确 定</el-button
+                >
             </template>
         </el-dialog>
 
@@ -160,6 +179,7 @@
             <el-form :model="formEdit">
                 <el-form-item label="用户组" label-width="70px">
                     <el-select
+                        size="large"
                         @change="EditSelect"
                         v-model="formEdit.roleName"
                         placeholder="用户组"
@@ -174,14 +194,19 @@
                 </el-form-item>
                 <el-form-item label="姓名" label-width="70px">
                     <el-input
+                        size="large"
                         v-model="formEdit.name"
                         autocomplete="off"
                     ></el-input>
                 </el-form-item>
             </el-form>
             <template #footer class="dialog-footer">
-                <el-button @click="dialogFormEdit = false">取 消</el-button>
-                <el-button type="primary" @click="EditUser">确 定</el-button>
+                <el-button size="large" @click="dialogFormEdit = false"
+                    >取 消</el-button
+                >
+                <el-button size="large" type="primary" @click="EditUser"
+                    >确 定</el-button
+                >
             </template>
         </el-dialog>
     </div>

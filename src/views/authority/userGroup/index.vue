@@ -1,6 +1,6 @@
 <template>
     <div class="userGroup">
-        <el-button
+        <el-button  size="large"
             type="primary"
             v-permission="'group_add'"
             @click="
@@ -20,7 +20,7 @@
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间">
             </el-table-column>
-            <el-table-column label="操作" width="150px">
+            <el-table-column label="操作" min-width="150px">
                 <template #default="scope">
                     <el-button
                         size="mini"
@@ -70,7 +70,7 @@
                 round
                 >清空</el-button
             >
-            <el-input
+            <el-input size="large"
                 style="margin: 10px 0"
                 placeholder="输入关键字进行过滤"
                 v-model="filterText"
@@ -91,21 +91,21 @@
 
             <el-form :model="form">
                 <el-form-item label="名称" label-width="40px">
-                    <el-input
+                    <el-input size="large"
                         v-model="form.roleName"
                         autocomplete="off"
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="备注" label-width="40px">
-                    <el-input
+                    <el-input size="large"
                         v-model="form.roleDescribe"
                         autocomplete="off"
                     ></el-input>
                 </el-form-item>
             </el-form>
             <template #footer class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="confirm">确 定</el-button>
+                <el-button  size="large" @click="dialogFormVisible = false">取 消</el-button>
+                <el-button  size="large" type="primary" @click="confirm">确 定</el-button>
             </template>
         </el-dialog>
     </div>

@@ -19,27 +19,24 @@
                 <template #dropdown class="user-dropdown">
                     <el-dropdown-menu>
                         <router-link to="/">
-                            <el-dropdown-item icon="el-icon-user">
+                            <el-dropdown-item icon="Grid">
                                 主页
                             </el-dropdown-item>
                         </router-link>
                         <el-dropdown-item
-                            icon="el-icon-edit"
+                            icon="Key"
                             divided
                             @click="dialogFormVisible = true"
                         >
                             修改密码
                         </el-dropdown-item>
-                        <el-dropdown-item
-                            icon="el-icon-switch-button"
-                            divided
-                            @click="logout"
-                        >
+                        <el-dropdown-item icon="Left" divided @click="logout">
                             退出
                         </el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
+      
         </div>
         <el-dialog
             title="修改密码"
