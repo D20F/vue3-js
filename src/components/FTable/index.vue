@@ -55,7 +55,7 @@
             <el-table-column
                 label="操作"
                 v-if="operateShow"
-                :min-width="operateMinWidth"
+                :width="operateWidth"
             >
                 <template #default="scope">
                     <slot name="operate" :scope="scope"> </slot>
@@ -121,7 +121,7 @@ export default {
             type: Boolean,
             default: true,
         },
-        operateMinWidth: {
+        operateWidth: {
             type: String,
             default: "",
         },
