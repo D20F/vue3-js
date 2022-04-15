@@ -1,6 +1,7 @@
 <script>
 import { h } from "vue";
 import * as ELIcons from "@element-plus/icons-vue";
+import { ElIcon } from "element-plus";
 
 export default {
     name: "MenuItem",
@@ -20,11 +21,17 @@ export default {
         const title = this.title;
         const vnodes = [];
         if (icon) {
-            if (icon.includes("el-icon")) {
-                vnodes.push(h(ELIcons[icon]));
-            } else {
-                vnodes.push(<svg-icon icon-class={icon} />);
-            }
+            vnodes.push(
+                h(
+                    ElIcon,
+                    {
+                        size: 15,
+                    },
+                    h(ELIcons["Bowl"])
+                    // h(ELIcons[icon])
+                )
+            );
+            // vnodes.push(<svg-icon icon-class={icon} />);
         }
         if (title) {
             vnodes.push(<span slot="title">{title}</span>);
