@@ -27,8 +27,8 @@ export default {
                     {
                         size: 15,
                     },
-                    h(ELIcons["Bowl"])
-                    // h(ELIcons[icon])
+                    () => h(ELIcons[icon])
+                    // () => h(ELIcons["Bowl"])
                 )
             );
             // vnodes.push(<svg-icon icon-class={icon} />);

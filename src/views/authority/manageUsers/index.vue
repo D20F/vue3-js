@@ -64,7 +64,6 @@
             <el-table-column label="操作">
                 <template #default="scope">
                     <el-button
-                        size="mini"
                         v-permission="'manager_edit'"
                         @click="handleEdit(scope.row)"
                         >编辑</el-button
@@ -78,16 +77,13 @@
                         title="确定重置密码为123456吗？"
                     >
                         <template #reference>
-                            <el-button
-                                v-permission="'manager_password'"
-                                size="mini"
+                            <el-button v-permission="'manager_password'"
                                 >重置</el-button
                             >
                         </template>
                     </el-popconfirm>
 
                     <el-button
-                        size="mini"
                         type="danger"
                         v-permission="'manager_del'"
                         @click="handleDelete(scope.row.id)"
@@ -111,6 +107,7 @@
             title="新增人员"
             @close="dialogClose"
             v-model="dialogFormVisible"
+            width="80%"
         >
             <el-form :model="form">
                 <el-form-item label="用户组" label-width="70px">
@@ -172,6 +169,7 @@
         </el-dialog>
 
         <el-dialog
+            width="80%"
             title="编辑人员"
             @close="dialogClose"
             v-model="dialogFormEdit"

@@ -34,7 +34,6 @@
                             <el-button
                                 v-if="data.type == 1"
                                 type="text"
-                                size="mini"
                                 v-permission="'rule_add'"
                                 @click.stop="append(data)"
                             >
@@ -42,7 +41,6 @@
                             </el-button>
                             <el-button
                                 type="text"
-                                size="mini"
                                 v-permission="'rule_del'"
                                 @click.stop="remove(data)"
                             >
@@ -129,7 +127,7 @@
             </div>
         </div>
 
-        <el-dialog title="新增" v-model="dialogFormVisible">
+        <el-dialog width="80%" title="新增" v-model="dialogFormVisible">
             <el-form :model="form">
                 <el-form-item label="上级菜单" label-width="70px">
                     <el-input

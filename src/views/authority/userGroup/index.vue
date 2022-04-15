@@ -1,6 +1,7 @@
 <template>
     <div class="userGroup">
-        <el-button  size="large"
+        <el-button
+            size="large"
             type="primary"
             v-permission="'group_add'"
             @click="
@@ -23,13 +24,11 @@
             <el-table-column label="操作" min-width="150px">
                 <template #default="scope">
                     <el-button
-                        size="mini"
                         v-permission="'group_edit'"
                         @click="handleEdit(scope.row)"
                         >编辑</el-button
                     >
                     <el-button
-                        size="mini"
                         type="danger"
                         v-permission="'group_del'"
                         @click="handleDelete(scope.row)"
@@ -50,6 +49,7 @@
         >
         </el-pagination>
         <el-dialog
+            width="80%"
             title="权限配置"
             v-model="dialogFormVisible"
             @close="dialogClose"
@@ -59,18 +59,14 @@
             <el-button
                 type="primary"
                 @click="setCheckedKeys(getTreeKey())"
-                size="mini"
                 round
                 >全选</el-button
             >
-            <el-button
-                type="success"
-                @click="setCheckedKeys([])"
-                size="mini"
-                round
+            <el-button type="success" @click="setCheckedKeys([])" round
                 >清空</el-button
             >
-            <el-input size="large"
+            <el-input
+                size="large"
                 style="margin: 10px 0"
                 placeholder="输入关键字进行过滤"
                 v-model="filterText"
@@ -91,21 +87,27 @@
 
             <el-form :model="form">
                 <el-form-item label="名称" label-width="40px">
-                    <el-input size="large"
+                    <el-input
+                        size="large"
                         v-model="form.roleName"
                         autocomplete="off"
                     ></el-input>
                 </el-form-item>
                 <el-form-item label="备注" label-width="40px">
-                    <el-input size="large"
+                    <el-input
+                        size="large"
                         v-model="form.roleDescribe"
                         autocomplete="off"
                     ></el-input>
                 </el-form-item>
             </el-form>
             <template #footer class="dialog-footer">
-                <el-button  size="large" @click="dialogFormVisible = false">取 消</el-button>
-                <el-button  size="large" type="primary" @click="confirm">确 定</el-button>
+                <el-button size="large" @click="dialogFormVisible = false"
+                    >取 消</el-button
+                >
+                <el-button size="large" type="primary" @click="confirm"
+                    >确 定</el-button
+                >
             </template>
         </el-dialog>
     </div>
