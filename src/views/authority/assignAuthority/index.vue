@@ -305,7 +305,19 @@ export default {
                 this.clear();
             });
         },
-        dialogConfirm() {
+        async dialogConfirm() {
+            console.log(this.form);
+            // this.form.type = 2;
+            // let obj = [
+            //     ["新增", "coupon_add"],
+            //     ["编辑", "coupon_edit"],
+            //     ["删除", "coupon_del"],
+            // ];
+            // for (const item of obj) {
+            //     this.form.name = item[0];
+            //     this.form.identify = item[1];
+            //     await adminPermissionAdd(this.form);
+            // }
             adminPermissionAdd(this.form).then((res) => {
                 this.adminPermissionPage();
                 this.clear();

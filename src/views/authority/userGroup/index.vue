@@ -4,6 +4,7 @@
             size="large"
             type="primary"
             v-permission="'group_add'"
+            style="margin-bottom: 15px"
             @click="
                 dialogFormVisible = true;
                 form.mode = 'add';
@@ -14,6 +15,8 @@
             :data="tableData"
             v-loading="tableDataLoading"
             style="width: 100%"
+            :fit="true"
+            border
         >
             <el-table-column prop="roleName" label="名称" width="180">
             </el-table-column>
@@ -167,9 +170,8 @@ export default {
                 size: this.page.pageSize,
             };
             adminRoleAll(data).then((res) => {
-                // console.log(res);
                 this.tableData = res;
-                this.page.total = res.total;
+                this.page.total = res.length;
                 this.tableDataLoading = false;
             });
         },

@@ -1,19 +1,14 @@
 <template>
     <div class="manageUsers">
-        <el-form :inline="true" :model="headerForm" class="demo-form-inline">
+        <el-form :model="headerForm" size="large" class="demo-form-inline">
             <el-form-item label="姓名">
                 <el-input
-                    size="large"
                     v-model="headerForm.name"
                     placeholder="姓名"
                 ></el-input>
             </el-form-item>
             <el-form-item label="用户组">
-                <el-select
-                    size="large"
-                    v-model="headerForm.grounp"
-                    placeholder="用户组"
-                >
+                <el-select v-model="headerForm.grounp" placeholder="用户组">
                     <el-option
                         v-for="(item, index) of grounp"
                         :key="index"
@@ -42,10 +37,13 @@
             type="primary"
             v-permission="'manager_add'"
             @click="dialogFormVisible = true"
+            style="margin-bottom: 15px"
             >新增人员</el-button
         >
         <el-table
             :data="tableData"
+            :fit="true"
+            border
             v-loading="tableDataLoading"
             style="width: 100%"
         >
@@ -390,4 +388,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.demo-form-inline {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    .el-form-item {
+        margin-right: 20px;
+    }
+}
 </style>

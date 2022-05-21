@@ -14,7 +14,7 @@
     >
         <template></template>
         <template #trigger>
-            <el-button size="small" type="primary">选取文件</el-button>
+            <el-button size="default" type="primary">选取文件</el-button>
         </template>
     </el-upload>
 </template>
@@ -130,13 +130,10 @@ export default {
                 this.$nextTick(() => {
                     loadingInstance.close();
                 });
-                this.$emit("uploadSuccess", [res.data, ...successList]);
+                this.$emit("uploadSuccess", [res, ...successList]);
                 this.limit == 1
-                    ? this.$emit("update:modelValue", res.data)
-                    : this.$emit("update:modelValue", [
-                          res.data,
-                          ...successList,
-                      ]);
+                    ? this.$emit("update:modelValue", res)
+                    : this.$emit("update:modelValue", [res, ...successList]);
             });
 
             // 不使用submit
@@ -172,4 +169,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.upload-demo {
+    width: 100%;
+}
 </style>

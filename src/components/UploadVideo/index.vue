@@ -11,7 +11,7 @@
         >
             <template></template>
             <template #trigger>
-                <el-button size="small" type="primary">上传视频</el-button>
+                <el-button size="default" type="primary">上传视频</el-button>
             </template>
         </el-upload>
         <el-progress v-if="percentageShow" :percentage="percentage" />
@@ -71,7 +71,7 @@ export default {
                 this.$nextTick(() => {
                     loadingInstance.close();
                 });
-                this.$emit("update:modelValue", res.data);
+                this.$emit("update:modelValue", res);
             });
         },
         qn_confirm() {
@@ -151,5 +151,8 @@ export default {
 .video video {
     width: 100%;
     height: 100%;
+}
+.upload-demo {
+    width: 100%;
 }
 </style>

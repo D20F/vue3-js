@@ -8,13 +8,15 @@
         </optionSearch>
         <el-button
             type="primary"
+            size="large"
+            style="margin-bottom: 15px"
             v-permission="'carousel_add'"
             @click="
                 dialogFormVisible = true;
                 confirmMode = 'add';
             "
-            >新增文章</el-button
-        >
+            >新增
+        </el-button>
 
         <FTable
             :tableDataLoading="tableDataLoading"
@@ -23,36 +25,35 @@
         >
             <template v-slot:operate="{ scope }">
                 <el-button
-                    size="mini"
-                    v-permission="'carousel_add'"
+                    size="small"
+                    v-permission="'carousel_edit'"
                     @click="handleEdit(scope.row)"
                     >编辑</el-button
                 >
                 <el-button
-                    v-permission="'carousel_add'"
-                    size="mini"
+                    v-permission="'carousel_del'"
+                    size="small"
                     type="danger"
                     @click="handleDelete(scope.row)"
                     >删除</el-button
                 >
             </template>
         </FTable>
+
         <el-pagination
             class="pagination"
             background
-            layout="total, sizes, prev, pager, next, jumper"
+            layout="total, prev, pager, next"
             :total="page.total"
-            :page-sizes="[page.pageSize]"
             :page-size="page.pageSize"
             v-model:current-page="page.page"
             @current-change="currentChange"
             :hide-on-single-page="true"
         >
         </el-pagination>
-
         <el-dialog
             width="70%"
-            title="新增文章"
+            title="新增"
             v-model="dialogFormVisible"
             @close="dialogClose"
             :modal="true"
@@ -67,8 +68,12 @@
             >
             </FForm>
             <template #footer class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="confirm">确 定</el-button>
+                <el-button size="large" @click="dialogFormVisible = false"
+                    >取 消</el-button
+                >
+                <el-button size="large" type="primary" @click="confirm"
+                    >确 定</el-button
+                >
             </template>
         </el-dialog>
     </div>
@@ -76,13 +81,13 @@
 
 <script>
 import {
-    addHomeAricle, //新增
-    homeAricleDelete, //删除
-    homeAricleModify, //修改
-    getHomeAricle, //分页查询
+    addHomeAricle,
+    getHomeAricle,
+    homeAricleDelete,
+    homeAricleModify,
 } from "@/api/other";
 export default {
-    name: "investmentAdvisory",
+    name: "carousel",
     data() {
         return {
             tableData: [],
@@ -100,12 +105,12 @@ export default {
             ],
             formHeader: [
                 {
-                    placeholder: "请输入标题",
+                    placeholder: "请输入",
                     value: "title",
                     label: "标题",
                 },
                 {
-                    placeholder: "请输入标题",
+                    placeholder: "请输入",
                     value: "id",
                     label: "标题",
                 },
@@ -121,7 +126,6 @@ export default {
                 },
                 {
                     type: "switch",
-                    placeholder: "请输入内容",
                     value: "content",
                     label: "内容",
                 },
@@ -176,13 +180,13 @@ export default {
             },
             headerHeader: [
                 {
-                    placeholder: "请输入电话",
+                    placeholder: "请输入",
                     value: "mobile",
                     label: "电话",
                 },
                 {
                     type: "select",
-                    placeholder: "请选择状态",
+                    placeholder: "请选择",
                     value: "status",
                     label: "状态",
                     option: [
@@ -209,17 +213,17 @@ export default {
                     ],
                 },
                 {
+                    type: "datetime",
+                    placeholder: "开始",
+                    value: "makeDate1",
+                    label: "111创建时间",
+                },
+                {
                     type: "datetimerange",
                     placeholder: ["开始", "结束"],
                     startValue: "startTime",
                     endValue: "endTime",
                     label: "创建时间",
-                },
-                {
-                    type: "datetime",
-                    placeholder: "开始",
-                    value: "makeDate1",
-                    label: "111创建时间",
                 },
                 {
                     type: "date",
@@ -257,9 +261,8 @@ export default {
     mounted() {},
     methods: {
         change() {
-            // console.log(this.headerForm);
             this.page.page = 1;
-            // this.getHomeAricle();
+            this.getHomeAricle();
         },
         getHomeAricle() {
             let data = {
@@ -299,29 +302,29 @@ export default {
             this.$refs.form
                 .submitForm()
                 .then((val) => {
-                    console.log(val);
+                    if (this.confirmMode == "add") {
+                        addHomeAricle(this.form).then((res) => {
+                            this.dialogFormVisible = false;
+                            this.$message({
+                                message: "创建成功",
+                                type: "success",
+                            });
+                        });
+                    } else if (this.confirmMode == "edit") {
+                        homeAricleModify(this.form.id, this.form).then(
+                            (res) => {
+                                this.dialogFormVisible = false;
+                                this.$message({
+                                    message: "修改成功",
+                                    type: "success",
+                                });
+                            }
+                        );
+                    }
                 })
                 .catch((err) => {
                     console.log(err);
                 });
-
-            // if (this.confirmMode == "add") {
-            //     addHomeAricle(this.form).then((res) => {
-            //         this.dialogFormVisible = false;
-            //         this.$message({
-            //             message: "创建成功",
-            //             type: "success",
-            //         });
-            //     });
-            // } else if (this.confirmMode == "edit") {
-            //     homeAricleModify(this.form.id, this.form).then((res) => {
-            //         this.dialogFormVisible = false;
-            //         this.$message({
-            //             message: "修改成功",
-            //             type: "success",
-            //         });
-            //     });
-            // }
         },
 
         currentChange(v) {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-button type="success" size="mini" @click="dialogFormVisible = true"
+        <el-button type="success" @click="dialogFormVisible = true"
             >查看详情</el-button
         >
         <el-dialog
@@ -8,6 +8,7 @@
             title="详情"
             v-model="dialogFormVisible"
             :modal="true"
+            :append-to-body="true"
             :destroy-on-close="true"
             :close-on-click-modal="false"
         >

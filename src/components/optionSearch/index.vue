@@ -1,5 +1,9 @@
 <template>
-    <el-form :inline="true" :model="formList" class="demo-form-inline">
+     <el-form
+        :model="formList"
+        class="demo-form-inline"
+        size="large"
+    >
         <el-form-item
             v-for="(item, index) in rowHeader"
             :key="index"
@@ -23,22 +27,26 @@
                 v-else-if="item.type == 'cascader'"
                 v-model="formList[item.value]"
                 :options="item.option"
-                clearable 
+                clearable
                 :show-all-levels="false"
                 :placeholder="item.placeholder || '请选择'"
             />
 
-            <datePicker
+            <el-date-picker
                 v-else-if="item.type == 'date'"
                 v-model="formList[item.value]"
                 :placeholder="item.placeholder"
                 type="date"
+                format="YYYY/MM/DD"
+                value-format="YYYY-MM-DD"
             />
-            <datePicker
+            <el-date-picker
                 v-else-if="item.type == 'datetime'"
                 v-model="formList[item.value]"
                 :placeholder="item.placeholder"
                 type="datetime"
+                format="YYYY/MM/DD hh:mm:ss"
+                value-format="YYYY-MM-DD hh:mm:ss"
             />
 
             <datetimerange
@@ -68,9 +76,9 @@
 
 <script>
 import datetimerange from "./datetimerange.vue";
-import datePicker from "./datePicker.vue";
 export default {
     name: "optionSearch",
+    emits: ["change"],
     props: {
         headerForm: {
             type: Object,
@@ -126,10 +134,7 @@ export default {
             },
         },
     },
-    components: {
-        datetimerange,
-        datePicker,
-    },
+    components: { datetimerange },
     computed: {},
     data() {
         return { formList: this.headerForm };
@@ -154,12 +159,21 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .content {
     width: 100%;
     height: 600px;
     overflow: hidden;
     overflow-y: auto;
     overflow-x: auto;
+}
+.demo-form-inline{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    .el-form-item{
+        margin-right: 20px;
+    }
 }
 </style>

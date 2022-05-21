@@ -1,6 +1,11 @@
 <template>
     <div>
-        <el-form :model="formList" :label-width="formLabelWidth" ref="form">
+        <el-form
+            :model="formList"
+            :label-width="formLabelWidth"
+            ref="form"
+            size="large"
+        >
             <el-form-item
                 v-for="(item, index) in rowHeader"
                 :key="index"
@@ -23,17 +28,23 @@
                     ></el-option>
                 </el-select>
 
-                <datePicker
+                <el-date-picker
                     v-else-if="item.type == 'date'"
                     v-model="formList[item.value]"
                     :placeholder="item.placeholder"
                     type="date"
+                    size="large"
+                    format="YYYY/MM/DD"
+                    value-format="YYYY-MM-DD"
                 />
-                <datePicker
+                <el-date-picker
                     v-else-if="item.type == 'datetime'"
                     v-model="formList[item.value]"
                     :placeholder="item.placeholder"
                     type="datetime"
+                    size="large"
+                    format="YYYY/MM/DD hh:mm:ss"
+                    value-format="YYYY-MM-DD hh:mm:ss"
                 />
 
                 <datetimerange
@@ -99,6 +110,7 @@
 
                 <el-input
                     v-else
+                    :type="item.inputType || 'text'"
                     v-model="formList[item.value]"
                     :placeholder="item.placeholder"
                 ></el-input>
@@ -113,9 +125,8 @@
 import Tinymce from "@/components/Tinymce";
 import UploadImage from "@/components/UploadImage";
 import UploadVideo from "@/components/UploadVideo";
-import datePicker from "../optionSearch/datePicker.vue";
-import datetimerange from "../optionSearch/datetimerange.vue";
 import { ElMessage } from "element-plus";
+import datetimerange from "../optionSearch/datetimerange.vue";
 
 export default {
     name: "FForm",
@@ -214,7 +225,6 @@ export default {
         UploadImage,
         UploadVideo,
         datetimerange,
-        datePicker,
     },
     computed: {},
     data() {
