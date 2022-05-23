@@ -28,16 +28,22 @@
                         :src="scope.row[item.value]"
                         :preview-src-list="[scope.row[item.value]]"
                         fit="cover"
+                        preview-teleported
                     ></el-image>
-                    <el-image
-                        v-else-if="item.columnType == 'imageList'"
-                        v-for="(i, indexs) in scope.row[item.value]"
-                        :key="indexs"
-                        style="width: 50px; height: 50px"
-                        :src="i"
-                        :preview-src-list="[i]"
-                        fit="cover"
-                    ></el-image>
+
+                    <div v-else-if="item.columnType == 'imageList'">
+                        <el-button type="success" @click="imgListShow = true">
+                            查看示例图片
+                        </el-button>
+                        <el-image-viewer
+                            v-if="imgListShow"
+                            @close="() => (imgListShow = false)"
+                            :url-list="scope.row[item.value]"
+                            teleported
+                        >
+                        </el-image-viewer>
+                    </div>
+
                     <ex-slot
                         v-else-if="item.columnType == 'render'"
                         :render="item.render"
@@ -128,7 +134,9 @@ export default {
     },
     computed: {},
     data() {
-        return {};
+        return {
+            imgListShow: false,
+        };
     },
     methods: {},
 };

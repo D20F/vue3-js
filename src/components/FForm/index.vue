@@ -47,6 +47,13 @@
                     value-format="YYYY-MM-DD hh:mm:ss"
                 />
 
+                <dateTimePicker
+                    v-else-if="item.type == 'dateTimePicker'"
+                    :list="item"
+                    v-model:startValue="formList[item.startValue]"
+                    v-model:endValue="formList[item.endValue]"
+                />
+
                 <datetimerange
                     v-else-if="item.type == 'datetimerange'"
                     :list="item"
@@ -112,7 +119,7 @@
                     v-else
                     :type="item.inputType || 'text'"
                     v-model="formList[item.value]"
-                    :placeholder="item.placeholder"
+                    :placeholder="item.placeholder || '请输入'"
                 ></el-input>
             </el-form-item>
 
@@ -127,7 +134,7 @@ import UploadImage from "@/components/UploadImage";
 import UploadVideo from "@/components/UploadVideo";
 import { ElMessage } from "element-plus";
 import datetimerange from "../optionSearch/datetimerange.vue";
-
+import dateTimePicker from "./dateTimePicker.vue";
 export default {
     name: "FForm",
     props: {
@@ -155,7 +162,8 @@ export default {
                     //                 value == ""
                     //                     ? callback("这里填出错信息")
                     //                     : callback();
-                    //             },
+                    //              },
+                    //              trigger: 'blur' ,//change
                     //         },
                     //     ],
                     // },
@@ -225,6 +233,7 @@ export default {
         UploadImage,
         UploadVideo,
         datetimerange,
+        dateTimePicker,
     },
     computed: {},
     data() {

@@ -1,16 +1,19 @@
 <template>
-    <el-date-picker
-        v-model="modelValue"
-        :placeholder="list.placeholder"
-        :type="type"
+    <el-time-picker
+        :ref="refs"
+        v-model="values"
+        is-range
+        range-separator="-"
+        :start-placeholder="list.placeholder[0]"
+        :end-placeholder="list.placeholder[1]"
         @change="change"
     >
-    </el-date-picker>
+    </el-time-picker>
 </template>
 
 <script>
 export default {
-    name: "datePicker",
+    name: "dateTimePicker",
     props: {
         list: {
             type: Object,
@@ -18,26 +21,42 @@ export default {
                 return {};
             },
         },
-        type: {
-            type: String,
-            default: "datetime",
-        },
-        modelValue: {
+        startValue: {
             type: [String, Object],
             default: "",
+        },
+        endValue: {
+            type: [String, Object],
+            default: "",
+        },
+        refs: {
+            type: String,
+            default: () => {
+                return new Date().getTime() + "ref";
+            },
         },
     },
     computed: {},
     data() {
-        return {};
+        return {
+            values: [],
+        };
     },
-    created() {
-        this.$emit("update:modelValue", new Date(this.modelValue));
-    },
+    created() {},
+    beforeUpdate() {},
     methods: {
         change(data) {
-            let value = this.parseTime(data);
-            this.$emit("update:modelValue", value);
+            if (data) {
+                this.$emit(
+                    "update:startValue",
+                    this.parseTime(data[0], "{h}:{i}:{s}")
+                );
+                this.$emit(
+                    "update:endValue",
+                    this.parseTime(data[1], "{h}:{i}:{s}")
+                );
+                this.$refs[this.refs].blur();
+            }
         },
         parseTime(time, cFormat) {
             if (arguments.length === 0 || !time) {
