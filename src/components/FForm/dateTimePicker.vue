@@ -42,7 +42,23 @@ export default {
             values: [],
         };
     },
-    created() {},
+    created() {
+        if (this.startValue) {
+            let startValue = this.startValue.split(":");
+            let endValue = this.endValue.split(":");
+            this.values = [
+                new Date(
+                    2016,
+                    9,
+                    10,
+                    startValue[0],
+                    startValue[1],
+                    startValue[2]
+                ),
+                new Date(2016, 9, 10, endValue[0], endValue[1], endValue[2]),
+            ];
+        }
+    },
     beforeUpdate() {},
     methods: {
         change(data) {
