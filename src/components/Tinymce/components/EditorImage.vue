@@ -2,8 +2,9 @@
     <div class="upload-container">
         <el-button
             :style="{ background: color, borderColor: color }"
-            icon="el-icon-upload"
+            icon="UploadFilled"
             type="primary"
+            size="small"
             @click="dialogVisible = true"
         >
             上传
@@ -18,7 +19,7 @@
                 :before-upload="beforeUpload"
                 class="editor-slide-upload"
                 list-type="picture-card"
-                action="https://ymtzapi.whkxzj.com/upload/file"
+                action="http://192.168.2.222:8085/upload/file"
             >
                 <el-button size="small" type="primary"> 点击上传 </el-button>
             </el-upload>
@@ -111,7 +112,7 @@ export default {
 <style lang="scss" scoped>
 .editor-slide-upload {
     margin-bottom: 20px;
-    .el-upload--picture-card {
+    ::v-deep .el-upload-list {
         width: 100%;
     }
 }
