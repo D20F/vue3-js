@@ -120,6 +120,7 @@
                     :type="item.inputType || 'text'"
                     v-model="formList[item.value]"
                     :placeholder="item.placeholder || '请输入'"
+                    :disabled="item.disabled || false"
                 ></el-input>
             </el-form-item>
 
@@ -133,7 +134,7 @@ import Tinymce from "@/components/Tinymce";
 import UploadImage from "@/components/UploadImage";
 import UploadVideo from "@/components/UploadVideo";
 import { ElMessage } from "element-plus";
-import datetimerange from "../optionSearch/datetimerange.vue";
+import datetimerange from "./datetimerange.vue";
 import dateTimePicker from "./dateTimePicker.vue";
 export default {
     name: "FForm",
