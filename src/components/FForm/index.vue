@@ -57,6 +57,9 @@
                 <datetimerange
                     v-else-if="item.type == 'datetimerange'"
                     :list="item"
+                    :dateType="item.dateType"
+                    :format="item.format"
+                    :valueFormat="item.valueFormat"
                     v-model:startValue="formList[item.startValue]"
                     v-model:endValue="formList[item.endValue]"
                 />

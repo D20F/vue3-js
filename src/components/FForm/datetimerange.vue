@@ -1,11 +1,11 @@
 <template>
     <el-date-picker
         v-model="value"
-        type="datetimerange"
+        :type="dateType"
         :start-placeholder="list.placeholder[0]"
         :end-placeholder="list.placeholder[1]"
-        format="YYYY/MM/DD hh:mm:ss"
-        value-format="YYYY-MM-DD hh:mm:ss"
+        :format="format"
+        :value-format="valueFormat"
         @change="change"
     >
     </el-date-picker>
@@ -28,6 +28,18 @@ export default {
         endValue: {
             type: [String, Object],
             default: "",
+        },
+        dateType: {
+            type: String,
+            default: "datetimerange",
+        },
+        format: {
+            type: String,
+            default: "YYYY-MM-DD hh:mm:ss",
+        },
+        valueFormat: {
+            type: String,
+            default: "YYYY-MM-DD hh:mm:ss",
         },
     },
     computed: {},
