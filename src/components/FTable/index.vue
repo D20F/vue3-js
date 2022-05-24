@@ -33,7 +33,7 @@
 
                     <div v-else-if="item.columnType == 'imageList'">
                         <el-button type="success" @click="imgListShow = true">
-                            查看示例图片
+                            查看图片
                         </el-button>
                         <el-image-viewer
                             v-if="imgListShow"

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="upload-demo">
         <el-upload
             class="upload-demo"
             ref="upload"

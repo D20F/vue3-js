@@ -59,7 +59,7 @@
             <el-input
                 v-else
                 v-model="formList[item.value]"
-                :placeholder="item.placeholder"
+                :placeholder="item.placeholder || '请输入'"
             ></el-input>
         </el-form-item>
         <slot name="formItem"></slot>
