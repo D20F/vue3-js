@@ -21,10 +21,9 @@
     </div>
 </template>
 <script>
-import { uploadFile } from "@/api/other";
+import { uploadFile, getQiniuToken } from "@/api/other";
 import { ElLoading } from "element-plus";
-import axios from "axios";
-// import * as qiniu from "qiniu-js";
+import * as qiniu from "qiniu-js";
 
 export default {
     name: "uploadVideo",
@@ -79,45 +78,42 @@ export default {
             if (this.uploadList.length == 0) {
                 return this.$emit("update:modelValue", "");
             }
-            // axios.get("/m").then((res) => {
-            let token =
-                "8KraoCrl2hKRD2fok6SsO5hwzI5TYYfeRrpdAoZe:iJHoTYFzJ1SBqSC5ARigYD4IUE4=:eyJzY29wZSI6ImppYXlpcGMiLCJkZWFkbGluZSI6MTY0ODAwMjYzN30=";
-            let config = {
-                useCdnDomain: true,
-            };
-            let putExtra = {
-                fname: "",
-                params: {},
-                mimeType: null,
-            };
+            getQiniuToken({ bucket: "yyjz" }).then((res) => {
+                let token = res;
+                let config = {
+                    useCdnDomain: true,
+                };
+                let putExtra = {
+                    fname: "",
+                    params: {},
+                    mimeType: null,
+                };
 
-            let file = this.uploadList[0];
-            let raw = file.raw;
-            let observable;
-            let key = new Date().getTime() + file.name;
-            putExtra.params["x:name"] = file.name.split(".")[0];
-            this.percentage = 0;
-            this.percentageShow = true;
+                let file = this.uploadList[0];
+                let raw = file.raw;
+                let observable;
+                let key = "video/" + new Date().getTime() + file.name;
+                putExtra.params["x:name"] = file.name.split(".")[0];
+                this.percentage = 0;
+                this.percentageShow = true;
 
-            observable = qiniu.upload(raw, key, token, putExtra, config);
-            observable.subscribe({
-                next: (response) => {
-                    let total = response.total;
-                    this.percentage = total.percent;
-                    console.log(response);
-                    console.log("进度", total.percent);
-                },
-                error: () => {
-                    this.$message({ message: "上传失败", type: "error" });
-                },
-                complete: (res) => {
-                    console.log(res);
-                    this.$message({ message: "上传成功", type: "success" });
-                    let filePath = "http://qny.jyxxwh.com/" + key;
-                    this.$emit("update:modelValue", filePath);
-                },
+                observable = qiniu.upload(raw, key, token, putExtra, config);
+                observable.subscribe({
+                    next: (response) => {
+                        let total = response.total;
+                        this.percentage = total.percent;
+                    },
+                    error: (err) => {
+                        console.log(err);
+                        this.$message({ message: "上传失败", type: "error" });
+                    },
+                    complete: (res) => {
+                        this.$message({ message: "上传成功", type: "success" });
+                        let filePath = "http://qiniu.whyouyuan.com/" + key;
+                        this.$emit("update:modelValue", filePath);
+                    },
+                });
             });
-            // });
         },
         onChange(file, fileList) {
             this.uploadList = fileList;

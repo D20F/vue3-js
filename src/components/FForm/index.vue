@@ -121,6 +121,7 @@
                 <el-input
                     v-else
                     :type="item.inputType || 'text'"
+                    :rows="item.rows || 4"
                     v-model="formList[item.value]"
                     :placeholder="item.placeholder || '请输入'"
                     :disabled="item.disabled || false"

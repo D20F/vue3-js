@@ -8,6 +8,13 @@
             border
         >
             <el-table-column
+                v-if="indexColumn"
+                type="index"
+                label="序号"
+                width="60px"
+            />
+
+            <el-table-column
                 v-for="(item, index) in rowHeader"
                 :key="index"
                 :prop="item.value"
@@ -62,6 +69,7 @@
                 label="操作"
                 v-if="operateShow"
                 :width="operateWidth"
+                :fixed="operateFixed"
             >
                 <template #default="scope">
                     <slot name="operate" :scope="scope"> </slot>
@@ -130,6 +138,14 @@ export default {
         operateWidth: {
             type: String,
             default: "",
+        },
+        operateFixed: {
+            type: [String, Boolean],
+            default: false,
+        },
+        indexColumn: {
+            type: Boolean,
+            default: false,
         },
     },
     computed: {},
