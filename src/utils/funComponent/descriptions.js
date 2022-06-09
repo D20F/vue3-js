@@ -6,7 +6,11 @@ export default (v) => {
         render() {
             let descriptions = h(
                 ElDescriptions,
-                { title: v.descriptions.title, border: v.descriptions.border, column: v.descriptions.column },
+                {
+                    title: v.descriptions.title,
+                    border: v.descriptions.border,
+                    column: v.descriptions.column
+                },
                 () => v.rowHeader.map((item) => {
                     return h(
                         ElDescriptionsItem,
@@ -20,12 +24,15 @@ export default (v) => {
                                         return h("span", '')
                                     }
                                     return v.headerData[item.value].map((item) => {
-                                        return h(ElImage, {
-                                            style: 'width: 50px; height: 50px',
-                                            fit: 'cover',
-                                            src: item,
-                                            previewSrcList: [item]
-                                        })
+                                        return h(
+                                            ElImage,
+                                            {
+                                                style: 'width: 50px; height: 50px',
+                                                fit: 'cover',
+                                                src: item,
+                                                previewSrcList: [item]
+                                            }
+                                        )
                                     })
                                 } else {
                                     return h("span", v.headerData[item.value])
@@ -37,7 +44,15 @@ export default (v) => {
             );
             return h(
                 ElDialog,
-                { width: v.dialog.width, title: v.dialog.title, modelValue: this.dialogFormVisible, modal: true, destroyOnClose: true, closeOnClickModal: false, onClose: this.dialogClose },
+                {
+                    width: v.dialog.width,
+                    title: v.dialog.title,
+                    modelValue: this.dialogFormVisible,
+                    modal: true,
+                    destroyOnClose: true,
+                    closeOnClickModal: false,
+                    onClose: this.dialogClose
+                },
                 { default: () => descriptions }
             );
         },
