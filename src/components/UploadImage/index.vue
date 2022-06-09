@@ -295,5 +295,8 @@ export default {
 <style lang="scss" scoped>
 .upload-demo {
     width: 100%;
+    ::v-deep .el-upload-list {
+        width: 100%;
+    }
 }
 </style>
