@@ -2,7 +2,7 @@
     <el-upload
         class="upload-demo"
         ref="upload"
-        list-type="picture"
+        :list-type="listType"
         :auto-upload="false"
         action="abcdefg"
         :http-request="uploadSectionFile"
@@ -19,8 +19,9 @@
 </template>
 
 <script>
-import { uploadFile } from "@/api/other";
+import { uploadFile, getQiniuToken } from "@/api/other";
 import { ElLoading } from "element-plus";
+import * as qiniu from "qiniu-js";
 
 export default {
     name: "UploadImage",
@@ -38,6 +39,14 @@ export default {
             default: () => {
                 return [];
             },
+        },
+        uploadType: {
+            type: String,
+            default: "lc",
+        },
+        listType: {
+            type: String,
+            default: "picture",
         },
     },
     data() {
@@ -153,6 +162,99 @@ export default {
             // 不使用submit
             // this.$refs.upload.submit();
         },
+        qn_confirm() {
+            if (this.uploadList.length == 0) {
+                this.$emit("uploadSuccess", []);
+                this.limit == 1
+                    ? this.$emit("update:modelValue", "")
+                    : this.$emit("update:modelValue", []);
+                return;
+            }
+            let loadingInstance = ElLoading.service({
+                text: "上传中",
+            });
+
+            let successList = [];
+            for (let i = 0; i < this.uploadList.length; i++) {
+                if (this.uploadList[i].status == "success") {
+                    successList.push(this.uploadList[i].url);
+                }
+            }
+
+            let readyList = "";
+            for (const item of this.uploadList) {
+                if (item.status == "ready") {
+                    let fileType = item.raw.type,
+                        isImage = fileType.indexOf("image") != -1;
+                    if (!isImage) {
+                        this.uploadList = [];
+                        this.$refs.upload.clearFiles();
+                        this.$nextTick(() => {
+                            loadingInstance.close();
+                            this.$message.error(
+                                "只能上传图片格式png、jpg、gif!"
+                            );
+                        });
+                        return;
+                    }
+                    readyList = item;
+                }
+            }
+
+            if (this.detect(this.uploadList)) {
+                this.$nextTick(() => {
+                    loadingInstance.close();
+                });
+                this.$emit("uploadSuccess", successList);
+                this.limit == 1
+                    ? this.$emit("update:modelValue", [])
+                    : this.$emit("update:modelValue", successList);
+                return;
+            }
+
+            getQiniuToken({ bucket: "yyjz" }).then((res) => {
+                let token = res;
+                let config = {
+                    useCdnDomain: true,
+                };
+                let putExtra = {
+                    fname: "",
+                    params: {},
+                    mimeType: null,
+                };
+
+                let file = readyList;
+                let raw = file.raw;
+                let observable;
+                let key = "image/" + new Date().getTime() + file.name;
+                putExtra.params["x:name"] = file.name.split(".")[0];
+
+                observable = qiniu.upload(raw, key, token, putExtra, config);
+                observable.subscribe({
+                    next: (response) => {},
+                    error: (err) => {
+                        // console.log(err);
+                        this.$nextTick(() => {
+                            loadingInstance.close();
+                        });
+                        this.$message({ message: "上传失败", type: "error" });
+                    },
+                    complete: (res) => {
+                        this.$nextTick(() => {
+                            loadingInstance.close();
+                        });
+                        this.$message({ message: "上传成功", type: "success" });
+                        let filePath = "http://qiniu.whyouyuan.com/" + key;
+                        this.limit == 1
+                            ? this.$emit("update:modelValue", filePath)
+                            : this.$emit("update:modelValue", [
+                                  filePath,
+                                  ...successList,
+                              ]);
+                    },
+                });
+            });
+        },
         detect(list) {
             let state = true;
             for (const item of list) {
@@ -167,7 +269,11 @@ export default {
             // console.log(this.uploadList);
             this.uploadList = fileList;
             if (this.autoUpload) {
-                this.confirm();
+                if (this.uploadType == "lc") {
+                    this.confirm();
+                } else if (this.uploadType == "qn") {
+                    this.qn_confirm();
+                }
             }
         },
         onRemove(file, fileList) {
@@ -175,7 +281,11 @@ export default {
             // console.log(this.uploadList);
             this.uploadList = fileList;
             if (this.autoUpload) {
-                this.confirm();
+                if (this.uploadType == "lc") {
+                    this.confirm();
+                } else if (this.uploadType == "qn") {
+                    this.qn_confirm();
+                }
             }
         },
     },

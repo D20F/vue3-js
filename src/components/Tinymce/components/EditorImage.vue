@@ -25,11 +25,21 @@
             </el-upload>
             <el-button @click="dialogVisible = false"> 取消 </el-button>
             <el-button type="primary" @click="handleSubmit"> 确定 </el-button>
+            <!-- <UploadImage
+                ref="upload"
+                :limit="10"
+                uploadType="qn"
+                v-model="imageList"
+                listType="picture-card"
+                :autoUpload="true"
+            /> -->
         </el-dialog>
     </div>
 </template>
 
 <script>
+import UploadImage from "@/components/UploadImage";
+
 export default {
     name: "EditorSlideUpload",
     props: {
@@ -38,11 +48,15 @@ export default {
             default: "#1890ff",
         },
     },
+    components: {
+        UploadImage,
+    },
     data() {
         return {
             dialogVisible: false,
             listObj: {},
             fileList: [],
+            imageList: [],
         };
     },
     methods: {

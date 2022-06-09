@@ -1,9 +1,5 @@
 <template>
-     <el-form
-        :model="formList"
-        class="demo-form-inline"
-        size="large"
-    >
+    <el-form :model="formList" class="demo-form-inline" size="large">
         <el-form-item
             v-for="(item, index) in rowHeader"
             :key="index"
@@ -14,6 +10,7 @@
                 v-if="item.type == 'select'"
                 v-model="formList[item.value]"
                 :placeholder="item.placeholder || '请选择'"
+                clearable
             >
                 <el-option
                     v-for="(i, indexs) in item.option"
@@ -167,12 +164,12 @@ export default {
     overflow-y: auto;
     overflow-x: auto;
 }
-.demo-form-inline{
+.demo-form-inline {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
-    .el-form-item{
+    .el-form-item {
         margin-right: 20px;
     }
 }
