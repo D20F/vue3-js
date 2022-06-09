@@ -10,15 +10,10 @@ import router from '@/router/index'
 
 // 使用线上地址 去vue.config配置 反向代理的地址
 // 本地测试地址
-// const URL =  http://ifwszg.natappfree.cc
-// http://ifwszg.natappfree.cc/
-// const URL = 'http://192.168.2.135:8008/'
-const URL = 'https://ymtzapi.whkxzj.com/'
+const URL = 'http://192.168.2.135:8008/'
 // 在 vueConfig 内配置了反向代理
 // const URL = ''
 
-// 线上地址
-// const URL = 'https://sxngapi.whkxzj.com/sxngApi/';
 const service = axios.create({
     baseURL: URL,
     // withCredentials: true, // send cookies when cross-domain requests
