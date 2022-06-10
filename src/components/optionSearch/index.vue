@@ -1,10 +1,18 @@
 <template>
-    <el-form :model="formList" class="demo-form-inline" size="large">
+    <el-form
+        :model="formList"
+        class="demo-form-inline"
+        :size="size"
+        :inline="true"
+    >
         <el-form-item
             v-for="(item, index) in rowHeader"
             :key="index"
             :label="item.label"
             :label-width="item.labelWidth"
+            :style="{
+                width: item.formItemWidth || 'auto',
+            }"
         >
             <el-select
                 v-if="item.type == 'select'"
@@ -62,10 +70,14 @@
         <slot name="formItem"></slot>
 
         <el-form-item>
-            <el-button @click="search" type="primary">搜索</el-button>
+            <el-button @click="search" :size="size" type="primary"
+                >搜索</el-button
+            >
         </el-form-item>
         <el-form-item>
-            <el-button @click="restart" type="primary">全部</el-button>
+            <el-button @click="restart" :size="size" type="primary"
+                >全部</el-button
+            >
         </el-form-item>
         <slot name="button"></slot>
     </el-form>
@@ -77,6 +89,10 @@ export default {
     name: "optionSearch",
     emits: ["change"],
     props: {
+        size: {
+            type: String,
+            default: "large",
+        },
         headerForm: {
             type: Object,
             default: () => {

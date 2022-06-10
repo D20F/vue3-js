@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-button type="success" @click="dialogFormVisible = true"
+        <el-button type="success" size="small" @click="dialogFormVisible = true"
             >查看详情</el-button
         >
         <el-dialog

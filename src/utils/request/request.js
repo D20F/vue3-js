@@ -10,10 +10,10 @@ import router from '@/router/index'
 
 // 使用线上地址 去vue.config配置 反向代理的地址
 // 本地测试地址
-const URL = 'http://192.168.2.135:8008/'
+// const URL = 'http://192.168.2.222:8085'
+const URL = 'https://api.whyouyuan.com'
 // 在 vueConfig 内配置了反向代理
 // const URL = ''
-
 const service = axios.create({
     baseURL: URL,
     // withCredentials: true, // send cookies when cross-domain requests
