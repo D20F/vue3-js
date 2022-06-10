@@ -42,17 +42,10 @@
                         <el-button
                             type="success"
                             size="small"
-                            @click="imgListShow = true"
+                            @click="imageViewer(scope.row[item.value])"
                         >
                             查看图片
                         </el-button>
-                        <el-image-viewer
-                            v-if="imgListShow"
-                            @close="() => (imgListShow = false)"
-                            :url-list="scope.row[item.value]"
-                            teleported
-                        >
-                        </el-image-viewer>
                     </div>
 
                     <ex-slot
@@ -84,7 +77,7 @@
 </template>
 <script>
 import exSlot from "./ex-solt.vue";
-
+import imageViewer from "@/utils/funComponent/imageViewer";
 export default {
     name: "FTable",
     components: {
@@ -154,11 +147,13 @@ export default {
     },
     computed: {},
     data() {
-        return {
-            imgListShow: false,
-        };
+        return {};
     },
-    methods: {},
+    methods: {
+        imageViewer(v) {
+            imageViewer(v);
+        },
+    },
 };
 </script>
 
