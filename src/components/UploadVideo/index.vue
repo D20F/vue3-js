@@ -22,12 +22,16 @@
 </template>
 <script>
 import { uploadFile, getQiniuToken } from "@/api/other";
-import { ElLoading } from "element-plus";
+import { ElLoading, ElUpload, ElButton, ElProgress } from "element-plus";
 import * as qiniu from "qiniu-js";
 
 export default {
     name: "uploadVideo",
-    components: {},
+    components: {
+        "el-progress": ElProgress,
+        "el-upload": ElUpload,
+        "el-button": ElButton,
+    },
     props: {
         modelValue: {
             type: [Array, String],

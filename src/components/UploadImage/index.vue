@@ -20,7 +20,7 @@
 
 <script>
 import { uploadFile, getQiniuToken } from "@/api/other";
-import { ElLoading } from "element-plus";
+import { ElLoading, ElUpload, ElButton } from "element-plus";
 import * as qiniu from "qiniu-js";
 
 export default {
@@ -54,7 +54,10 @@ export default {
             uploadList: [],
         };
     },
-    components: {},
+    components: {
+        "el-upload": ElUpload,
+        "el-button": ElButton,
+    },
     computed: {
         fileList() {
             if (typeof this.modelValue == "object") {

@@ -2,7 +2,6 @@
     <div class="upload-container">
         <el-button
             :style="{ background: color, borderColor: color }"
-            icon="UploadFilled"
             type="primary"
             size="small"
             @click="dialogVisible = true"
@@ -34,6 +33,7 @@
 
 <script>
 import UploadImage from "@/components/UploadImage";
+import { ElDialog, ElButton } from "element-plus";
 
 export default {
     name: "EditorSlideUpload",
@@ -45,6 +45,8 @@ export default {
     },
     components: {
         UploadImage,
+        "el-dialog": ElDialog,
+        "el-button": ElButton,
     },
     data() {
         return {

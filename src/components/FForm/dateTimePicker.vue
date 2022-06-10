@@ -12,8 +12,13 @@
 </template>
 
 <script>
+import { ElTimePicker } from "element-plus";
+
 export default {
     name: "dateTimePicker",
+    components: {
+        "el-time-picker": ElTimePicker,
+    },
     props: {
         list: {
             type: Object,

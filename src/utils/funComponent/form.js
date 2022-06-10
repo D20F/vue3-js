@@ -7,11 +7,15 @@ import {
     ElButton,
     ElSelect,
     ElOption,
-    ElMessage,
+    ElSwitch,
+    ElDatePicker,
+    ElColorPicker,
+    ElCascader,
+    ElRate,
 } from "element-plus";
-import Tinymce from "@/components/Tinymce";
 import UploadImage from "@/components/UploadImage";
 import UploadVideo from "@/components/UploadVideo";
+import Tinymce from "@/components/Tinymce";
 import datetimerange from "@/components/FForm/datetimerange";
 import dateTimePicker from "@/components/FForm/dateTimePicker";
 
@@ -58,15 +62,145 @@ export default (v) => {
             let image = (item) => h(
                 UploadImage,
                 {
-                    props: {
-                        limit: item.limit || 1,
-                        uploadType: item.uploadType || 'lc',
-                        autoUpload: item.autoUpload || true,
-                        modelValue: v.headerData[item.value],
-                        'onUpdate:modelValue': (res) => {
-                            console.log(res)
-                            v.headerData[item.value] = res;
-                        },
+                    limit: item.limit || 1,
+                    uploadType: item.uploadType || 'lc',
+                    autoUpload: item.autoUpload || true,
+                    modelValue: v.headerData[item.value],
+                    'onUpdate:modelValue': (res) => {
+                        v.headerData[item.value] = res;
+                    },
+                }
+            )
+            let video = (item) => h(
+                UploadVideo,
+                {
+                    limit: item.limit || 1,
+                    uploadType: item.uploadType || 'lc',
+                    autoUpload: item.autoUpload || true,
+                    modelValue: v.headerData[item.value],
+                    'onUpdate:modelValue': (res) => {
+                        v.headerData[item.value] = res;
+                    },
+                }
+            )
+            let switchs = (item) => h(
+                ElSwitch,
+                {
+                    inlinePrompt: true,
+                    activeColor: item.activeColor || '#13ce66',
+                    inactiveColor: item.inactiveColor || '#ff4949',
+                    activeText: item.activeText,
+                    inactiveText: item.inactiveText,
+                    modelValue: v.headerData[item.value],
+                    'onUpdate:modelValue': (res) => {
+                        v.headerData[item.value] = res;
+                    },
+                }
+            )
+            let dateTimePickers = (item) => h(
+                dateTimePicker,
+                {
+                    list: item,
+                    startValue: v.headerData[item.startValue],
+                    'onUpdate:startValue': (res) => {
+                        v.headerData[item.startValue] = res;
+                    },
+                    endValue: v.headerData[item.endValue],
+                    'onUpdate:endValue': (res) => {
+                        v.headerData[item.endValue] = res;
+                    },
+                }
+            )
+            let datetimeranges = (item) => h(
+                datetimerange,
+                {
+                    list: item,
+                    dateType: item.dateType,
+                    format: item.format,
+                    valueFormat: item.valueFormat,
+                    startValue: v.headerData[item.startValue],
+                    'onUpdate:startValue': (res) => {
+                        v.headerData[item.startValue] = res;
+                    },
+                    endValue: v.headerData[item.endValue],
+                    'onUpdate:endValue': (res) => {
+                        v.headerData[item.endValue] = res;
+                    },
+                }
+            )
+            let dates = (item) => h(
+                ElDatePicker,
+                {
+                    placeholder: item.placeholder,
+                    type: "date",
+                    size: "large",
+                    format: "YYYY/MM/DD",
+                    valueFormat: "YYYY-MM-DD",
+                    modelValue: v.headerData[item.value],
+                    'onUpdate:modelValue': (res) => {
+                        v.headerData[item.value] = res;
+                    },
+                }
+            )
+            let datetimes = (item) => h(
+                ElDatePicker,
+                {
+                    placeholder: item.placeholder,
+                    type: "datetime",
+                    size: "large",
+                    format: "YYYY/MM/DD hh:mm:ss",
+                    valueFormat: "YYYY-MM-DD hh:mm:ss",
+                    modelValue: v.headerData[item.value],
+                    'onUpdate:modelValue': (res) => {
+                        v.headerData[item.value] = res;
+                    },
+                }
+            )
+            let tinymces = (item) => h(
+                Tinymce,
+                {
+                    height: 400,
+                    modelValue: v.headerData[item.value],
+                    'onUpdate:modelValue': (res) => {
+                        v.headerData[item.value] = res;
+                    },
+                }
+            )
+            let colors = (item) => h(
+                ElColorPicker,
+                {
+                    modelValue: v.headerData[item.value],
+                    'onUpdate:modelValue': (res) => {
+                        v.headerData[item.value] = res;
+                    },
+                }
+            )
+            let cascaders = (item) => h(
+                ElCascader,
+                {
+                    options: item.options,
+                    showAllLevels: false,
+                    placeholder: item.placeholder || '请选择',
+                    props: item.props,
+                    style: {
+                        width: '100%'
+                    },
+                    modelValue: v.headerData[item.value],
+                    'onUpdate:modelValue': (res) => {
+                        v.headerData[item.value] = res;
+                    },
+                }
+            )
+            let rates = (item) => h(
+                ElRate,
+                {
+                    allowHalf: true,
+                    style: {
+                        marginTop: '10px'
+                    },
+                    modelValue: v.headerData[item.value],
+                    'onUpdate:modelValue': (res) => {
+                        v.headerData[item.value] = res;
                     },
                 }
             )
@@ -92,6 +226,26 @@ export default (v) => {
                                     return select(item)
                                 } else if (item.type == 'image') {
                                     return image(item)
+                                } else if (item.type == 'video') {
+                                    return video(item)
+                                } else if (item.type == 'switch') {
+                                    return switchs(item)
+                                } else if (item.type == 'dateTimePicker') {
+                                    return dateTimePickers(item)
+                                } else if (item.type == 'datetimerange') {
+                                    return datetimeranges(item)
+                                } else if (item.type == 'datetime') {
+                                    return datetimes(item)
+                                } else if (item.type == 'date') {
+                                    return dates(item)
+                                } else if (item.type == 'tinymce') {
+                                    return tinymces(item)
+                                } else if (item.type == 'color') {
+                                    return colors(item)
+                                } else if (item.type == 'cascader') {
+                                    return cascaders(item)
+                                } else if (item.type == 'rate') {
+                                    return rates(item)
                                 } else {
                                     return input(item)
                                 }
@@ -117,6 +271,7 @@ export default (v) => {
                         size: 'large',
                         type: 'primary',
                         onClick: () => {
+                            console.log(this)
                             v.success(v.headerData)
                         }
                     },
