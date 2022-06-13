@@ -1,6 +1,6 @@
 <template>
     <div class="manageUsers">
-        <el-form :model="headerForm" size="large" class="demo-form-inline">
+        <el-form :model="headerForm" class="demo-form-inline">
             <el-form-item label="姓名">
                 <el-input
                     v-model="headerForm.name"
@@ -19,7 +19,6 @@
             </el-form-item>
             <el-form-item>
                 <el-button
-                    size="large"
                     @click="
                         headerForm = {
                             name: '',
@@ -33,7 +32,6 @@
         </el-form>
 
         <el-button
-            size="large"
             type="primary"
             v-permission="'manager_add'"
             @click="dialogFormVisible = true"
@@ -47,15 +45,9 @@
             v-loading="tableDataLoading"
             style="width: 100%"
         >
-            <el-table-column prop="username" label="账号" width="180">
-            </el-table-column>
-            <el-table-column prop="name" label="姓名" width="180">
-            </el-table-column>
-            <el-table-column
-                prop="adminRole.roleName"
-                label="用户组"
-                width="180"
-            >
+            <el-table-column prop="username" label="账号"> </el-table-column>
+            <el-table-column prop="name" label="姓名"> </el-table-column>
+            <el-table-column prop="adminRole.roleName" label="用户组">
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间">
             </el-table-column>
@@ -105,7 +97,7 @@
             title="新增人员"
             @close="dialogClose"
             v-model="dialogFormVisible"
-            width="80%"
+            width="600px"
         >
             <el-form :model="form">
                 <el-form-item label="用户组" label-width="70px">

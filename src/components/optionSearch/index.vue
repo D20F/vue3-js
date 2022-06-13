@@ -11,7 +11,7 @@
             :label="item.label"
             :label-width="item.labelWidth"
             :style="{
-                width: item.formItemWidth || 'auto',
+                width: item.formItemWidth || formWidth,
             }"
         >
             <el-select
@@ -92,6 +92,10 @@ export default {
         size: {
             type: String,
             default: "large",
+        },
+        formWidth: {
+            type: String,
+            default: "",
         },
         headerForm: {
             type: Object,
@@ -187,6 +191,9 @@ export default {
     flex-wrap: wrap;
     .el-form-item {
         margin-right: 20px;
+    }
+    .el-select {
+        width: 100%;
     }
 }
 </style>

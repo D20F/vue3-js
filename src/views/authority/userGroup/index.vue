@@ -1,7 +1,6 @@
 <template>
     <div class="userGroup">
         <el-button
-            size="large"
             type="primary"
             v-permission="'group_add'"
             style="margin-bottom: 15px"
@@ -18,13 +17,12 @@
             :fit="true"
             border
         >
-            <el-table-column prop="roleName" label="名称" width="180">
-            </el-table-column>
-            <el-table-column prop="roleDescribe" label="备注" width="180">
+            <el-table-column prop="roleName" label="名称"> </el-table-column>
+            <el-table-column prop="roleDescribe" label="备注">
             </el-table-column>
             <el-table-column prop="createTime" label="创建时间">
             </el-table-column>
-            <el-table-column label="操作" min-width="150px">
+            <el-table-column label="操作">
                 <template #default="scope">
                     <el-button
                         v-permission="'group_edit'"
@@ -52,7 +50,7 @@
         >
         </el-pagination>
         <el-dialog
-            width="80%"
+            width="600px"
             title="权限配置"
             v-model="dialogFormVisible"
             @close="dialogClose"

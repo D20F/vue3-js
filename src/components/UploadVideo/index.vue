@@ -113,7 +113,7 @@ export default {
                     },
                     complete: (res) => {
                         this.$message({ message: "上传成功", type: "success" });
-                        let filePath = "http://qiniu.whyouyuan.com/" + key;
+                        let filePath = "https://qiniu.whyouyuan.com/" + key;
                         this.$emit("update:modelValue", filePath);
                     },
                 });

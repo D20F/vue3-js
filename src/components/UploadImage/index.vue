@@ -247,7 +247,7 @@ export default {
                             loadingInstance.close();
                         });
                         this.$message({ message: "上传成功", type: "success" });
-                        let filePath = "http://qiniu.whyouyuan.com/" + key;
+                        let filePath = "https://qiniu.whyouyuan.com/" + key;
                         this.limit == 1
                             ? this.$emit("update:modelValue", filePath)
                             : this.$emit("update:modelValue", [

@@ -127,7 +127,7 @@
             </div>
         </div>
 
-        <el-dialog width="80%" title="新增" v-model="dialogFormVisible">
+        <el-dialog width="600px" title="新增" v-model="dialogFormVisible">
             <el-form :model="form">
                 <el-form-item label="上级菜单" label-width="70px">
                     <el-input
@@ -215,8 +215,6 @@
                 >
             </template>
         </el-dialog>
-
-        <el-icon><apple /></el-icon>
     </div>
 </template>
 
@@ -306,18 +304,21 @@ export default {
             });
         },
         async dialogConfirm() {
-            console.log(this.form);
+            // 应该删除 ---------------------
+            // console.log(this.form);
             // this.form.type = 2;
             // let obj = [
-            //     ["新增", "coupon_add"],
-            //     ["编辑", "coupon_edit"],
-            //     ["删除", "coupon_del"],
+            // ["新增", "problem_add"],
+            // ["编辑", "problem_edit"],
+            // ["删除", "problem_del"],
+            // ["上架", "commodity_shelves"],
             // ];
             // for (const item of obj) {
             //     this.form.name = item[0];
             //     this.form.identify = item[1];
             //     await adminPermissionAdd(this.form);
             // }
+            // -----------------------
             adminPermissionAdd(this.form).then((res) => {
                 this.adminPermissionPage();
                 this.clear();
