@@ -6,7 +6,16 @@
             style="width: 100%"
             :fit="true"
             border
+            :row-key="getRowKeys"
+            @selection-change="selectionChange"
         >
+            <el-table-column
+                v-if="selection"
+                type="selection"
+                :reserve-selection="true"
+                prop="id"
+                fixed
+            />
             <el-table-column
                 v-if="indexColumn"
                 type="index"
@@ -31,7 +40,7 @@
                     />
                     <el-image
                         v-else-if="item.columnType == 'image'"
-                        style="width: 100px; height: 100px"
+                        style="width: 50px; height: 50px"
                         :src="scope.row[item.value]"
                         :preview-src-list="[scope.row[item.value]]"
                         fit="cover"
@@ -144,12 +153,22 @@ export default {
             type: Boolean,
             default: false,
         },
+        selection: {
+            type: Boolean,
+            default: false,
+        },
     },
     computed: {},
     data() {
         return {};
     },
     methods: {
+        getRowKeys(row) {
+            return this.selection ? row.id : "";
+        },
+        selectionChange(v) {
+            this.$emit("selectionChange", v);
+        },
         imageViewer(v) {
             imageViewer(v);
         },

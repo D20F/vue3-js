@@ -30,7 +30,7 @@
                         >
                             修改密码
                         </el-dropdown-item>
-                        <el-dropdown-item icon="Left" divided @click="logout">
+                        <el-dropdown-item icon="SwitchButton" divided @click="logout">
                             退出
                         </el-dropdown-item>
                     </el-dropdown-menu>
