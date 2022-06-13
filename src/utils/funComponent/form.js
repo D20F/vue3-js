@@ -208,6 +208,7 @@ export default (v) => {
             let form = h(
                 ElForm,
                 {
+                    ref: "form",
                     model: v.headerData,
                     labelWidth: v.formLabelWidth,
                 },
@@ -271,8 +272,21 @@ export default (v) => {
                         size: 'large',
                         type: 'primary',
                         onClick: () => {
-                            console.log(this)
-                            v.success(v.headerData)
+                            this.$refs.form.validate((valid, list) => {
+                                for (let item in list) {
+                                    return ElMessage({
+                                        message: list[item][0].message,
+                                        type: "error",
+                                        duration: 2 * 1000,
+                                    });
+                                }
+                                if (valid) {
+                                    v.success(v.headerData)
+                                    this.dialogFormVisible = false
+                                } else {
+                                    v.error(v.headerData);
+                                }
+                            });
                         }
                     },
                     () => '确定'
@@ -326,13 +340,23 @@ export default (v) => {
 //     id: "",
 // });
 // openForm({
-//     dialog: { width: "90%", title: "详情" },
-//     formLabelWidth: "40px",
+//     dialog: { width: "50%", title: "详情" },
+//     formLabelWidth: "70px",
 //     headerData: headerData,
 //     rowHeader: [
 //         {
 //             value: "title",
 //             label: "标题",
+//             rules: [
+//                 {
+//                     validator: (rule, value, callback) => {
+//                         value == 1
+//                             ? callback()
+//                             : callback("请输入正确手机号");
+//                     },
+//                     trigger: "blur",
+//                 },
+//             ],
 //         },
 //         {
 //             type: "image",
@@ -377,6 +401,11 @@ export default (v) => {
 //                     label: "已处理",
 //                 },
 //             ],
+//             rules: {
+//                 required: true,
+//                 message: "Please input Activity name",
+//                 trigger: "blur",
+//             },
 //         },
 //         {
 //             type: "tinymce",
@@ -385,6 +414,9 @@ export default (v) => {
 //         },
 //     ],
 //     success: (res) => {
+//         console.log(res);
+//     },
+//     error: (res) => {
 //         console.log(res);
 //     },
 // });
