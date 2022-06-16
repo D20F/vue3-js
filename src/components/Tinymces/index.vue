@@ -2,10 +2,10 @@
     <div class="tinymce-container">
         <editor
             ref="editor"
-            :id="tinymceId"
+            :id="id"
             v-model="value"
             :init="{
-                selector: '#' + tinymceId,
+                selector: '#' + id,
                 height: height,
                 menubar: false,
                 plugins: plugins,
@@ -58,21 +58,22 @@ export default {
             value: this.modelValue,
             plugins: plugins,
             toolbar: toolbar,
-            tinymceId: this.id,
         };
     },
     components: { editor: Editor, editorImage: editorImage },
     computed: {},
     watch: {},
-    created() {},
+    created() {
+        this.value = this.modelValue;
+    },
     mounted() {},
     methods: {
         imageSuccessCBK(arr) {
             const _this = this;
             arr.forEach((v) => {
                 window.tinymce
-                    .get(_this.tinymceId)
-                    .insertContent(`<img class="wscnph" src="${v.url}" >`);
+                    .get(_this.id)
+                    .insertContent(`<img class="wscnph" src="${v}" >`);
             });
         },
         change(event, editor) {
@@ -91,12 +92,6 @@ export default {
 }
 </style>
 <style scoped>
-/* /deep/ #mceu_44-body {
-    white-space: pre-wrap !important;
-}
-/deep/ #mceu_46-body {
-    white-space: pre-wrap !important;
-} */
 .tinymce-container /deep/ .mce-container,
 .mce-container *,
 .mce-widget,
@@ -104,16 +99,6 @@ export default {
 .mce-reset {
     white-space: pre-wrap !important;
     width: 100% !important;
-}
-/deep/ .mce-flow-layout {
-    white-space: pre-wrap !important;
-}
-
-/deep/ .mce-widget {
-    white-space: pre-wrap !important;
-}
-/deep/ .mce-ico {
-    font-size: 1rem !important;
 }
 .tinymce-container {
     position: relative;
