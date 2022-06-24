@@ -8,6 +8,7 @@
         :http-request="uploadSectionFile"
         :on-change="onChange"
         :on-remove="onRemove"
+        :on-preview="onPreview"
         :limit="limit"
         :file-list="fileList"
     >
@@ -16,6 +17,12 @@
             <el-button size="default" type="primary">选取文件</el-button>
         </template>
     </el-upload>
+
+    <el-image-viewer
+        @close="() => (dialogVisible = false)"
+        :url-list="[dialogImageUrl]"
+        v-if="dialogVisible"
+    />
 </template>
 
 <script>
@@ -46,12 +53,14 @@ export default {
         },
         listType: {
             type: String,
-            default: "picture",
+            default: "picture-card",
         },
     },
     data() {
         return {
             uploadList: [],
+            dialogVisible: false,
+            dialogImageUrl: "",
         };
     },
     components: {
@@ -290,6 +299,10 @@ export default {
                     this.qn_confirm();
                 }
             }
+        },
+        onPreview(uploadFile) {
+            this.dialogImageUrl = uploadFile.url;
+            this.dialogVisible = true;
         },
     },
 };
