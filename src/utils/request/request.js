@@ -77,7 +77,27 @@ service.interceptors.response.use(
         return Promise.reject(error)
     }
 )
-
+const blobService = axios.create({
+    baseURL: URL,
+    responseType: "blob",
+    timeout: 60000,
+    headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'tokenType': 1,
+    }
+})
+blobService.interceptors.request.use(
+    config => {
+        if (store.getters.token) {
+            config.headers['token'] = getToken('admin_token')
+            config.headers['userId'] = getToken('userId')
+        }
+        return config
+    },
+    error => {
+        return Promise.reject(error)
+    }
+)
 export const postData = (url, data) => {
     return new Promise((resolve, reject) => {
         service({ url, data, method: 'post' })
@@ -105,6 +125,13 @@ export const putData = (url, data) => {
 export const deleteData = (url, params) => {
     return new Promise((resolve, reject) => {
         service({ url, params, method: 'DELETE' })
+            .then(res => resolve(res.data))
+            .catch(err => reject(err))
+    })
+}
+export const getBlobData = (url, params) => {
+    return new Promise((resolve, reject) => {
+        blobService({ url, params, method: 'get' })
             .then(res => resolve(res.data))
             .catch(err => reject(err))
     })
