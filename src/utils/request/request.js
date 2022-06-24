@@ -136,3 +136,26 @@ export const getBlobData = (url, params) => {
             .catch(err => reject(err))
     })
 }
+// customerExport(row) {
+//     let data = {
+//         id: row.id,
+//     };
+//     customerExport(data).then((res) => {
+//         let blob = res;
+//         const reader = new FileReader();
+//         reader.readAsDataURL(blob);
+//         reader.onload = (e) => {
+//             let a = document.createElement("a");
+//             a.style.display = "none";
+//             a.download = "excel.xlsx";
+//             a.href = e.target.result;
+//             document.body.appendChild(a);
+//             a.click();
+//             document.body.removeChild(a);
+//             this.$message({
+//                 message: "导出成功",
+//                 type: "success",
+//             });
+//         };
+//     });
+// }
