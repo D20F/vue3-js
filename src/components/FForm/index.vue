@@ -86,6 +86,7 @@
                     v-else-if="item.type == 'image'"
                     ref="upload"
                     :limit="item.limit || 1"
+                    :tip="item.tip"
                     :uploadType="item.uploadType || 'lc'"
                     v-model="formList[item.value]"
                     :autoUpload="item.autoUpload || true"

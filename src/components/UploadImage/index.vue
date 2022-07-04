@@ -16,6 +16,9 @@
         <template #trigger>
             <el-button size="default" type="primary">选取文件</el-button>
         </template>
+        <template #tip>
+            <p style="color: #999999">{{ tip }}</p>
+        </template>
     </el-upload>
 
     <el-image-viewer
@@ -54,6 +57,10 @@ export default {
         listType: {
             type: String,
             default: "picture-card",
+        },
+        tip: {
+            type: String,
+            default: "",
         },
     },
     data() {
