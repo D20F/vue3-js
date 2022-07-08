@@ -1,17 +1,6 @@
-组件和svg组件
+多层嵌套子路由在上一层加上<router-view></router-view>
 
-对于后台权限
-从页面按钮
-到角色
-到用户id划分
-
-拖拽组件
-echar 图表
-动态table 拖拽table 编辑table table的各种应用
-
-Vue Draggable 的写入
-
-
+Draggable
 
 ## 接收 excel 表格 
 ```js
