@@ -1,9 +1,9 @@
 <script>
-import { h } from "vue";
+import { h, defineComponent } from "vue";
 import * as ELIcons from "@element-plus/icons-vue";
 import { ElIcon } from "element-plus";
 
-export default {
+export default defineComponent({
     name: "MenuItem",
     functional: true,
     props: {
@@ -16,29 +16,19 @@ export default {
             default: "",
         },
     },
-    render() {
-        const icon = this.icon;
-        const title = this.title;
-        const vnodes = [];
-        if (icon) {
-            vnodes.push(
-                h(
-                    ElIcon,
-                    {
-                        size: 15,
-                    },
-                    () => h(ELIcons[icon])
-                    // () => h(ELIcons["Bowl"])
-                )
-            );
-            // vnodes.push(<svg-icon icon-class={icon} />);
-        }
-        if (title) {
-            vnodes.push(<span slot="title">{title}</span>);
-        }
-        return vnodes;
+    setup(props) {
+        const slots = {
+            default: () => h(ELIcons[props.icon]),
+            // default: () => h(ELIcons["Bowl"]),
+        };
+        return () => (
+            <div>
+                <ElIcon size="15" v-slots={slots} />
+                <span>{props.title}</span>
+            </div>
+        );
     },
-};
+});
 </script>
 
 <style scoped>
