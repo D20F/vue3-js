@@ -6,10 +6,13 @@
             v-model="value"
             :init="{
                 selector: '#' + id,
-                height: height,
+                height: 560,
+                min_height: 560,
                 menubar: false,
                 plugins: plugins,
                 toolbar: toolbar,
+                fontsize_formats:
+                    '12px 14px 16px 18px 24px 36px 48px 56px 72px',
                 menubar: 'file edit insert view format table',
                 language: 'zh_CN',
                 paste_data_images: true,
@@ -27,6 +30,9 @@
 </template>
 
 <script>
+// tinymce 中文文档
+// http://tinymce.ax-z.cn/
+
 import editorImage from "./components/EditorImage";
 import Editor from "@tinymce/tinymce-vue";
 import plugins from "./plugins";
@@ -46,11 +52,6 @@ export default {
         },
         modelValue: {
             default: "",
-        },
-        height: {
-            type: [Number, String],
-            required: false,
-            default: 480,
         },
     },
     data() {
@@ -101,6 +102,7 @@ export default {
     width: 100% !important;
 }
 .tinymce-container {
+    width: 100%;
     position: relative;
     line-height: normal;
 }
@@ -118,6 +120,7 @@ export default {
     z-index: 2005;
 }
 .editor-upload-btn {
+    margin-left: 10px;
     display: inline-block;
 }
 </style>
